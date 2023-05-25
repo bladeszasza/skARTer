@@ -6,33 +6,30 @@
 //
 
 import SwiftUI
-import RealityKit
 
-struct ContentView : View {
+struct ContentView: View {
     var body: some View {
-        ARViewContainer().edgesIgnoringSafeArea(.all)
+        NavigationView {
+            VStack {
+                Text("Welcome to skARTer")
+                    .font(.largeTitle)
+                    .padding()
+
+                NavigationLink(destination: ARViewContainer()) {
+                    Text("Start AR Scene")
+                        .font(.title)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+            }
+        }
     }
 }
 
-struct ARViewContainer: UIViewRepresentable {
-    
-    func makeUIView(context: Context) -> ARView {
-        
-        let arView = ARView(frame: .zero)
-        
-        // Load the "Box" scene from the "Experience" Reality File
-        let boxAnchor = try! Experience.loadBox()
-        
-        // Add the box anchor to the scene
-        arView.scene.anchors.append(boxAnchor)
-        
-        return arView
-        
-    }
-    
-    func updateUIView(_ uiView: ARView, context: Context) {}
-    
-}
+
+
 
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
@@ -41,3 +38,4 @@ struct ContentView_Previews : PreviewProvider {
     }
 }
 #endif
+

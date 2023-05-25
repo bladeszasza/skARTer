@@ -15,6 +15,7 @@
 		4058044C2A1E384A00B6BE8C /* skARTerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4058044B2A1E384A00B6BE8C /* skARTerTests.swift */; };
 		405804562A1E384A00B6BE8C /* skARTerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405804552A1E384A00B6BE8C /* skARTerUITests.swift */; };
 		405804582A1E384A00B6BE8C /* skARTerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405804572A1E384A00B6BE8C /* skARTerUITestsLaunchTests.swift */; };
+		405804652A1E3B1800B6BE8C /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405804642A1E3B1800B6BE8C /* ARViewContainer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		405804512A1E384A00B6BE8C /* skARTerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = skARTerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		405804552A1E384A00B6BE8C /* skARTerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = skARTerUITests.swift; sourceTree = "<group>"; };
 		405804572A1E384A00B6BE8C /* skARTerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = skARTerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		405804642A1E3B1800B6BE8C /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 			children = (
 				405804382A1E384900B6BE8C /* AppDelegate.swift */,
 				4058043A2A1E384900B6BE8C /* ContentView.swift */,
+				405804642A1E3B1800B6BE8C /* ARViewContainer.swift */,
 				4058043C2A1E384900B6BE8C /* Experience.rcproject */,
 				4058043E2A1E384A00B6BE8C /* Assets.xcassets */,
 				405804402A1E384A00B6BE8C /* Preview Content */,
@@ -262,6 +265,7 @@
 			files = (
 				4058043B2A1E384900B6BE8C /* ContentView.swift in Sources */,
 				405804392A1E384900B6BE8C /* AppDelegate.swift in Sources */,
+				405804652A1E3B1800B6BE8C /* ARViewContainer.swift in Sources */,
 				4058043D2A1E384900B6BE8C /* Experience.rcproject in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
