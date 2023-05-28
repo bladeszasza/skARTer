@@ -11,48 +11,15 @@ import ARKit
 
 struct ARViewContainer: UIViewRepresentable {
     
-
-
+    
+    
     
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
         arView.debugOptions = .showPhysics         // shape visualization
         
-        // Load the "Skateboard" scene from the "Experience" Reality File
-        do {
-            print("do")
-            let skateAnchor = try Experience.loadSkateboard()
-            let name = "primitive_0"
-            // Find the entity
-            if let deckEntity = findEntityRecursively(named: name, in: skateAnchor) as? (ModelEntity) {
-                //deck dimensions
-                let deckSize: SIMD3<Float> = [0.8011, 0.0416, 0.1921]
-                let deckShape = ShapeResource.generateBox(size: deckSize)
-                //wheel dimensions
-                let wheelRadius: Float = 0.0498 / 2 // the radius is half of the diameter
-                let wheelShape = ShapeResource.generateSphere(radius: wheelRadius)
-
-                let wheelShapes = [
-                    ShapeResource.generateSphere(radius: wheelRadius).offsetBy(translation: [ 0.3, 0,  0.4]),
-                    ShapeResource.generateSphere(radius: wheelRadius).offsetBy(translation: [-0.3, 0,  0.4]),
-                    ShapeResource.generateSphere(radius: wheelRadius).offsetBy(translation: [ 0.3, 0, -0.4]),
-                    ShapeResource.generateSphere(radius: wheelRadius).offsetBy(translation: [-0.3, 0, -0.4])
-                ]
-
-                let shapes: [ShapeResource] = [deckShape] + wheelShapes
-
-                
-                  deckEntity.collision = CollisionComponent(shapes: shapes)
-                  deckEntity.physicsBody = PhysicsBodyComponent(shapes: shapes, mass: 4.5)
-                  deckEntity.collision = CollisionComponent(shapes: shapes)
-                  deckEntity.physicsBody?.massProperties.centerOfMass.position = [0, 0,-27]
-            }
-            // Add the skateboard anchor to the scene
-            arView.scene.anchors.append(skateAnchor)
-        } catch {
-            print("Failed to load the Skateboard scene from Experience Reality File: \(error)")
-        }
-
+ 
+        
         // Set up the ARView's session configuration for LiDAR scanning
         let config = ARWorldTrackingConfiguration()
         
@@ -66,17 +33,44 @@ struct ARViewContainer: UIViewRepresentable {
         
         // Enable automatic environment texturing
         config.environmentTexturing = .automatic
-
+        
         // Run the session with the configuration
         arView.session.run(config)
         
+        do {
+            let skateAnchor = try Experience.loadSkateboard()
+            if let skateboard = skateAnchor.skateboard {
+//                print("skateboard \(skateboard) and \(skateAnchor)")
+                updateDirection(arView: arView)
+                applyPhysicsAndCollision(to: skateboard)
+            }
+            arView.scene.anchors.append(skateAnchor)
+        } catch {
+            print("Failed to load the Skateboard scene from Experience Reality File: \(error)")
+        }
+        
         return arView
     }
-
     
-    func updateUIView(_ uiView: ARView, context: Context) {}
+    func updateUIView(_ uiView: ARView, context: Context) {
+        
+    }
     
 }
+
+var userDirection: SIMD3<Float> = SIMD3<Float>(0, 0, 0)
+var pushStrength: Float = 0.1 // adjust this to achieve the desired push strength
+let tailCoordinates  = SIMD3<Float>(0.385,-0.0497,0.0)
+
+
+func updateDirection(arView: ARView) {
+    // Calculate the direction based on the camera's transform
+    if let transform = arView.session.currentFrame?.camera.transform {
+        let direction = SIMD3<Float>(-transform.columns.3.x, -transform.columns.3.y, -transform.columns.3.z)
+        userDirection = normalize(direction)
+    }
+}
+
 
 struct ARViewContainer_Previews: PreviewProvider {
     static var previews: some View {
@@ -84,22 +78,25 @@ struct ARViewContainer_Previews: PreviewProvider {
     }
 }
 
+func loadSkateboard(){
 
-// helper method probably will be placed elsewhere
-
-func findEntityRecursively(named name: String, in entity: Entity) -> Entity? {
-    print("findEntityRecursively")
-    if entity.name == name {
-        return entity
-    }
-    
-    for child in entity.children {
-        if let found = findEntityRecursively(named: name, in: child) {
-            print("found")
-            return found
-        }
-    }
-    
-    return nil
 }
+//deszka : [hossza, magassaga, szelessege]
 
+func applyPhysicsAndCollision(to entity: Entity) {
+    if  let skateboardWithPhisics = entity as? HasPhysics  {
+        let shapes: [ShapeResource] = [
+            .generateBox(size: [0.8011, 0.0416, 0.1921]).offsetBy(translation: [0.0, 0.1916/2, 0.0]), // Deck
+            .generateSphere(radius: 0.028).offsetBy(translation: [0.2055, 0.023, 0.06845]), // Front-Right Wheel
+            .generateSphere(radius: 0.028).offsetBy(translation: [-0.2055, 0.023, 0.06845]), // Front-Left Wheel
+            .generateSphere(radius: 0.028).offsetBy(translation: [0.2055, 0.023, -0.06845]), // Back-Right Wheel
+            .generateSphere(radius: 0.028).offsetBy(translation: [-0.2055, 0.023, -0.06845]) // Back-Left Wheel
+        ]
+        skateboardWithPhisics.collision = CollisionComponent(shapes: shapes)
+        skateboardWithPhisics.physicsBody = PhysicsBodyComponent(shapes: shapes, mass: 4.5)
+        skateboardWithPhisics.physicsBody?.massProperties.centerOfMass.position = [0.305, 0.0, 0.0]
+        
+        skateboardWithPhisics.applyImpulse( (userDirection * pushStrength), at: tailCoordinates, relativeTo: nil )
+
+    }
+}

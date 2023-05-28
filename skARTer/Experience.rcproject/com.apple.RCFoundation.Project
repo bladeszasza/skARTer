@@ -118,7 +118,19 @@
                           "rigidBody-enabled",
                           {
                             "typeName" : "Bool",
-                            "value" : false
+                            "value" : true
+                          }
+                        ],
+                        [
+                          "rigidBody-material",
+                          {
+                            "typeName" : "RigidBodyMaterial",
+                            "value" : {
+                              "builtIn" : "wood",
+                              "overrides" : {
+
+                              }
+                            }
                           }
                         ],
                         [
