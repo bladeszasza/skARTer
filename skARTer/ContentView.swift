@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import RealityKit
 
 struct ContentView: View {
+    @State private var skateboardEntity: Entity? = nil
+
     var body: some View {
         NavigationView {
             VStack {
@@ -15,7 +18,7 @@ struct ContentView: View {
                     .font(.largeTitle)
                     .padding()
 
-                NavigationLink(destination: ARViewContainer()) {
+                NavigationLink(destination: ARViewContainer(skateboardEntity: $skateboardEntity)) {
                     Text("Start AR Scene")
                         .font(.title)
                         .padding()
