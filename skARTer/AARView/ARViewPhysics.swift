@@ -20,7 +20,7 @@ func applyPhysicsAndCollision(to entity: HasPhysics) {
     ]
     entity.collision = CollisionComponent(shapes: shapes)
     entity.physicsBody = PhysicsBodyComponent(shapes: shapes, mass: 4.5)
-    //    entity.physicsBody?.massProperties.centerOfMass.position = [0.3055, 0.023, 0.0]
+    entity.physicsBody?.massProperties.centerOfMass.position = [0.00, 0.07, 0.0]
 }
 
 extension ARViewContainer {

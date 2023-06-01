@@ -16,7 +16,7 @@ struct ARViewContainer: UIViewRepresentable {
     @Binding var skateboardEntity: Entity? // Used to store the skateboard entity
 
     @State private var impulseStartDate: Date? = nil // Used to store the start date of impulse
-    @State var userDirection: SIMD3<Float> = SIMD3<Float>(0.0, -0.9, -1.19) // Direction of the user
+    @State var userDirection: SIMD3<Float> = SIMD3<Float>(0.0, -1.1, 0.7) // Direction of the user
 
     let impulseDuration: TimeInterval = 1 // in seconds
 

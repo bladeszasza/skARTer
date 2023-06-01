@@ -11,6 +11,7 @@ import SwiftUI
 
 class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelegate {
     var parent: ARViewContainer
+    let inMotionChanger: SIMD3<Float> = SIMD3<Float>(0.0, 1.0, -1.0)
     
     init(_ parent: ARViewContainer) {
         self.parent = parent
@@ -18,9 +19,9 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
     
     
     func sessionWasInterrupted(_ session: ARSession) {
-          // The session got interrupted (probably due to navigating back), so stop the recording
+        // The session got interrupted (probably due to navigating back), so stop the recording
         
-      }
+    }
     
     @objc func handleLongPress(_ sender: UILongPressGestureRecognizer){
         // Perform hit test
@@ -32,18 +33,34 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
             if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
                 let position = SIMD3<Float>(firstResult.worldTransform.columns.3.x, firstResult.worldTransform.columns.3.y, firstResult.worldTransform.columns.3.z)
                 
-//                    print("position: \(position)")
-//                    print("strength: \(parent.userDirection * kickStrength)")
+                //                    skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = position
+                skateboardWithPhysics.addForce(kickDirection * kickStrength, at: position, relativeTo: nil)
                 
-//                    skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = position
-                skateboardWithPhysics.addForce(parent.userDirection * kickStrength, at: position, relativeTo: nil)
+            }
+        }
+    }
+    
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        // Perform hit test
+        let location = sender.location(in: parent.arView)
+        let results = parent.arView.raycast(from: location, allowing: .estimatedPlane, alignment: .any)
+        
+        
+        if let firstResult = results.first {
+            // Apply impulse on the tapped location
+            if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
+                let position = SIMD3<Float>(firstResult.worldTransform.columns.3.x, firstResult.worldTransform.columns.3.y, firstResult.worldTransform.columns.3.z)
+                let tailOffset = SIMD3<Float>(0.0, 0.0, -0.1) // Adjust this value as necessary
+                let adjustedPosition = position + tailOffset
+                print("position: \(adjustedPosition)")
+                print("strength: \(kickDirection * kickStrength)")
                 
-
+                //                        skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = position
+                skateboardWithPhysics.applyImpulse(kickDirection * kickStrength, at: adjustedPosition, relativeTo: nil)
             }
         }
         
-
-            
     }
     
     var isSkateboardInMotion: Bool {
@@ -58,8 +75,15 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
         }
         return false
     }
-
     
+    var kickDirection: SIMD3<Float> {
+        // Check if the skateboard is in motion
+        if isSkateboardInMotion {
+            return parent.userDirection * inMotionChanger
+        } else {
+            return parent.userDirection
+        }
+    }
     
     var kickStrength: Float {
         // Check if the skateboard is in motion
@@ -75,31 +99,10 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
     }
     
     
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        // Perform hit test
-        let location = sender.location(in: parent.arView)
-        let results = parent.arView.raycast(from: location, allowing: .estimatedPlane, alignment: .any)
-        
-        
-        if let firstResult = results.first {
-            // Apply impulse on the tapped location
-            if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
-                let position = SIMD3<Float>(firstResult.worldTransform.columns.3.x, firstResult.worldTransform.columns.3.y, firstResult.worldTransform.columns.3.z)
-                
-                print("position: \(position)")
-                print("strength: \(parent.userDirection * kickStrength)")
-
-//                        skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = position
-                skateboardWithPhysics.applyImpulse(parent.userDirection * kickStrength, at: position, relativeTo: nil)
-            }
-        }
-        
-    }
     
     static func setupARView(arView: ARView, context: UIViewRepresentableContext<ARViewContainer>, skateboardEntity: Binding<Entity?>, userDirection: Binding<SIMD3<Float>>) {
-        // Your setup logic here, extracted from makeUIView
-        // Refer to skateboardEntity.wrappedValue and userDirection.wrappedValue to get/set values
-        //        arView.debugOptions = .showPhysics
+//        arView.debugOptions = .showPhysics
+//        arView.debugOptions.insert(.showSceneUnderstanding)
         
         // Set up the ARView's session configuration for LiDAR scanning
         let config = ARWorldTrackingConfiguration()
@@ -112,6 +115,15 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
         
         // Enable automatic environment texturing
         config.environmentTexturing = .automatic
+        
+        arView.environment.sceneUnderstanding.options = []
+        arView.environment.sceneUnderstanding.options.insert(.receivesLighting)
+        arView.environment.sceneUnderstanding.options.insert(.occlusion)
+        arView.environment.sceneUnderstanding.options.insert(.collision)
+        arView.environment.sceneUnderstanding.options.insert(.physics)
+        
+        arView.renderOptions = [.disableFaceMesh, .disableHDR, .disableMotionBlur, .disableCameraGrain, .disableDepthOfField]
+        
         arView.session.delegate = context.coordinator
         // Run the session with the configuration
         arView.session.run(config)
