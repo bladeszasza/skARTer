@@ -12,11 +12,41 @@ import SwiftUI
 class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelegate {
     var parent: ARViewContainer
     let inMotionChanger: SIMD3<Float> = SIMD3<Float>(0.0, 1.0, -1.0)
+    var initialUserPosition: SIMD3<Float>?
+
     
     init(_ parent: ARViewContainer) {
         self.parent = parent
     }
     
+    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        let cameraTransform = frame.camera.transform
+        let cameraPosition = SIMD3<Float>(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
+
+        if let skateboardEntity = parent.skateboardEntity {
+            let skateboardPosition = skateboardEntity.position(relativeTo: nil)
+            let rotation = lookAt(eye: cameraPosition, center: skateboardPosition, up: SIMD3<Float>(0.0, 1.0, 0.0))
+            skateboardEntity.orientation = rotation
+            print("applied rotation: \(rotation)  skateboardPosition \(skateboardPosition) cameraPosition \(cameraPosition)")
+        }
+    }
+
+
+    func lookAt(eye: simd_float3, center: simd_float3, up: simd_float3) -> simd_quatf {
+        let z = normalize(eye - center)
+        let x = normalize(cross(up, z))
+        let y = cross(z, x)
+        let t = simd_float3(-dot(x, eye), -dot(y, eye), -dot(z, eye))
+        
+        return simd_quatf(simd_float4x4(
+            simd_float4(x.x, y.x, z.x, 0),
+            simd_float4(x.y, y.y, z.y, 0),
+            simd_float4(x.z, y.z, z.z, 0),
+            simd_float4(t.x, t.y, t.z, 1)
+        ))
+    }
+
+
     
     func sessionWasInterrupted(_ session: ARSession) {
         // The session got interrupted (probably due to navigating back), so stop the recording
@@ -38,6 +68,7 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
                 
             }
         }
+        initialUserPosition = nil
     }
     
     
@@ -58,9 +89,10 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
                 
                 //                        skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = position
                 skateboardWithPhysics.applyImpulse(kickDirection * kickStrength, at: adjustedPosition, relativeTo: nil)
+                initialUserPosition = nil
             }
         }
-        
+       
     }
     
     var isSkateboardInMotion: Bool {
