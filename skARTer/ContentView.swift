@@ -8,21 +8,46 @@
 import SwiftUI
 import RealityKit
 
-struct ContentView: View {
-    @State private var skateboardEntity: Entity? = nil
+enum Screen {
+    case arView
+}
 
+struct ContentView: View {
+    @ObservedObject var recordingState: RecordingState
+    @State private var skateboardEntity: Entity? = nil
+    @State private var currentScreen: Screen? = nil
+    
     var body: some View {
         NavigationView {
             VStack {
-                Text("Welcome to skARTer")
+                Text("skARTer")
                     .font(.largeTitle)
                     .padding()
-
-                NavigationLink(destination: ARViewContainer(skateboardEntity: $skateboardEntity)) {
-                    Text("Start AR Scene")
+                
+                Button(action: {
+                    self.recordingState.start() // Start the recording when the button is clicked
+                    self.currentScreen = .arView // Update the currentScreen
+                }) {
+                    Text("Shred the world and Record it!")
                         .font(.title)
                         .padding()
-                        .background(Color.blue)
+                        .background(Color.purple)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .background( // Embed your button inside a NavigationLink, which will be invisible
+                    NavigationLink(tag: .arView, selection: $currentScreen, destination: {
+                        ARViewContainer(skateboardEntity: $skateboardEntity)
+                    }, label: { EmptyView() })
+                )
+                
+                Button(action: {
+                    self.recordingState.stop() // Stop the recording when the button is clicked
+                }) {
+                    Text("Stop Recording")
+                        .font(.title)
+                        .padding()
+                        .background(Color.red)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
@@ -30,16 +55,5 @@ struct ContentView: View {
         }
     }
 }
-
-
-
-
-#if DEBUG
-struct ContentView_Previews : PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
-#endif
 
 
