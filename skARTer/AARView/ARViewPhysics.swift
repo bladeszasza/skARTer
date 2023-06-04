@@ -24,10 +24,11 @@ func applyPhysicsAndCollision(to entity: HasPhysics) {
 }
 
 extension ARViewContainer {
+
     func startImpulse() {
         if let skateboardWithPhysics = skateboardEntity as? HasPhysics {
-            //        skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = [0.0, 0.0, 0.0]
-            skateboardWithPhysics.physicsMotion?.linearVelocity += (userDirection * pushStrength)
+            skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = [0.00, 0.07, 0.0]
+            skateboardWithPhysics.physicsMotion?.linearVelocity += (forwardDirectionForSkateboard * pushStrength)
         }
     }
 }

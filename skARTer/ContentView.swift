@@ -28,7 +28,7 @@ struct ContentView: View {
                     self.recordingState.start() // Start the recording when the button is clicked
                     self.currentScreen = .arView // Update the currentScreen
                 }) {
-                    Text("Shred the world and Record it!")
+                    Text("Shred the world!")
                         .font(.title)
                         .padding()
                         .background(Color.purple)

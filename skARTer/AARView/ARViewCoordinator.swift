@@ -13,7 +13,7 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
     var parent: ARViewContainer
     let inMotionChanger: SIMD3<Float> = SIMD3<Float>(0.0, 1.0, -1.0)
     var initialUserPosition: SIMD3<Float>?
-
+    
     
     init(_ parent: ARViewContainer) {
         self.parent = parent
@@ -22,7 +22,7 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
         let cameraTransform = frame.camera.transform
         let cameraPosition = SIMD3<Float>(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
-
+        
         if let skateboardEntity = parent.skateboardEntity {
             let skateboardPosition = skateboardEntity.position(relativeTo: nil)
             let rotation = lookAt(eye: cameraPosition, center: skateboardPosition, up: SIMD3<Float>(0.0, 1.0, 0.0))
@@ -30,8 +30,9 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
             print("applied rotation: \(rotation)  skateboardPosition \(skateboardPosition) cameraPosition \(cameraPosition)")
         }
     }
-
-
+    
+    
+    
     func lookAt(eye: simd_float3, center: simd_float3, up: simd_float3) -> simd_quatf {
         let z = normalize(eye - center)
         let x = normalize(cross(up, z))
@@ -45,8 +46,8 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
             simd_float4(t.x, t.y, t.z, 1)
         ))
     }
-
-
+    
+    
     
     func sessionWasInterrupted(_ session: ARSession) {
         // The session got interrupted (probably due to navigating back), so stop the recording
@@ -64,7 +65,7 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
                 let position = SIMD3<Float>(firstResult.worldTransform.columns.3.x, firstResult.worldTransform.columns.3.y, firstResult.worldTransform.columns.3.z)
                 
                 //                    skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = position
-                skateboardWithPhysics.addForce(kickDirection * kickStrength, at: position, relativeTo: nil)
+                skateboardWithPhysics.addForce(kickDirection * catchStrength, at: position, relativeTo: nil)
                 
             }
         }
@@ -81,6 +82,9 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
         if let firstResult = results.first {
             // Apply impulse on the tapped location
             if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
+                if (!isSkateboardInMotion){
+//                    parent.startImpulse()
+                }
                 let position = SIMD3<Float>(firstResult.worldTransform.columns.3.x, firstResult.worldTransform.columns.3.y, firstResult.worldTransform.columns.3.z)
                 let tailOffset = SIMD3<Float>(0.0, 0.0, -0.1) // Adjust this value as necessary
                 let adjustedPosition = position + tailOffset
@@ -92,7 +96,7 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
                 initialUserPosition = nil
             }
         }
-       
+        
     }
     
     var isSkateboardInMotion: Bool {
@@ -130,11 +134,16 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
         }
     }
     
+    var catchStrength: Float {
+        // Check if the skateboard is in motion
+        return Float.random(in: 1.8...2.2)
+    }
+    
     
     
     static func setupARView(arView: ARView, context: UIViewRepresentableContext<ARViewContainer>, skateboardEntity: Binding<Entity?>, userDirection: Binding<SIMD3<Float>>) {
-//        arView.debugOptions = .showPhysics
-//        arView.debugOptions.insert(.showSceneUnderstanding)
+        //        arView.debugOptions = .showPhysics
+        //        arView.debugOptions.insert(.showSceneUnderstanding)
         
         // Set up the ARView's session configuration for LiDAR scanning
         let config = ARWorldTrackingConfiguration()
