@@ -12,7 +12,8 @@ import SwiftUI
 class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelegate {
     var parent: ARViewContainer
     let inMotionChanger: SIMD3<Float> = SIMD3<Float>(0.0, 1.0, -1.0)
-    var initialUserPosition: SIMD3<Float>?
+    var notChoosen = true
+    
     
     
     init(_ parent: ARViewContainer) {
@@ -20,15 +21,15 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        let cameraTransform = frame.camera.transform
-        let cameraPosition = SIMD3<Float>(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
+        //        let cameraTransform = frame.camera.transform
+        //        let cameraPosition = SIMD3<Float>(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
         
-        if let skateboardEntity = parent.skateboardEntity {
-            let skateboardPosition = skateboardEntity.position(relativeTo: nil)
-            let rotation = lookAt(eye: cameraPosition, center: skateboardPosition, up: SIMD3<Float>(0.0, 1.0, 0.0))
-            skateboardEntity.orientation = rotation
-            print("applied rotation: \(rotation)  skateboardPosition \(skateboardPosition) cameraPosition \(cameraPosition)")
-        }
+        //        if let skateboardEntity = parent.skateboardEntity {
+        //            let skateboardPosition = skateboardEntity.position(relativeTo: nil)
+        //            let rotation = lookAt(eye: cameraPosition, center: skateboardPosition, up: SIMD3<Float>(0.0, 1.0, 0.0))
+        //            skateboardEntity.orientation = rotation
+        //            print("applied rotation: \(rotation)  skateboardPosition \(skateboardPosition) cameraPosition \(cameraPosition)")
+        //        }
     }
     
     
@@ -69,8 +70,47 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
                 
             }
         }
-        initialUserPosition = nil
     }
+    
+    
+    //    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+    //        print("handleTap")
+    //
+    //
+    //        if let skateboardWithPhysics = (parent.skateboardEntity as? HasPhysics) {
+    //            if(notChoosen){
+    //                print("applyed")
+    //                applyPhysicsAndCollision(to: skateboardWithPhysics)
+    //                notChoosen = false
+    //            }
+    //        }
+    //
+    //        // Perform hit test
+    //        let location = sender.location(in: parent.arView)
+    //        let results = parent.arView.raycast(from: location, allowing: .estimatedPlane, alignment: .any)
+    //        print("results \(results)")
+    //
+    //        if let firstResult = results.first {
+    //            print("had result \(firstResult)")
+    //            // Apply impulse on the tapped location
+    //            if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
+    //
+    //                    print("holdin on to the board  \(skateboardWithPhysics)")
+    //                if (!isSkateboardInMotion){
+    //                    //                    parent.startImpulse()
+    //                }
+    //                let position = SIMD3<Float>(firstResult.worldTransform.columns.3.x, firstResult.worldTransform.columns.3.y, firstResult.worldTransform.columns.3.z)
+    //                let tailOffset = SIMD3<Float>(0.0, 0.0, -0.1) // Adjust this value as necessary
+    //                let adjustedPosition = position + tailOffset
+    //                print("position: \(adjustedPosition)")
+    //                print("strength: \(kickDirection * kickStrength)")
+    //
+    //                //                        skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = position
+    //                skateboardWithPhysics.applyImpulse(kickDirection * kickStrength, at: adjustedPosition, relativeTo: nil)
+    //            }
+    //        }
+    //
+    //    }
     
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
@@ -78,26 +118,50 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
         let location = sender.location(in: parent.arView)
         let results = parent.arView.raycast(from: location, allowing: .estimatedPlane, alignment: .any)
         
-        
         if let firstResult = results.first {
-            // Apply impulse on the tapped location
-            if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
-                if (!isSkateboardInMotion){
-//                    parent.startImpulse()
+            
+            let position = SIMD3<Float>(firstResult.worldTransform.columns.3.x, firstResult.worldTransform.columns.3.y, firstResult.worldTransform.columns.3.z)
+            
+            // Define all your skateboards here
+            let skateboards = [parent.skateboardEntity, parent.firstEntity, parent.secondEntity, parent.thirdEntity, parent.fourthEntity, parent.fifthEntity, parent.sixthEntity, parent.seventhEntity]
+            
+            // Find the closest skateboard
+            var closestSkateboard: HasPhysics?
+            var minDistance: Float = Float.infinity
+            for skateboard in skateboards {
+                if let skateboardWithPhysics = skateboard as? HasPhysics {
+                    let skateboardPosition = skateboardWithPhysics.transform.translation
+                    let distance = simd_distance(position, skateboardPosition)
+                    if distance < minDistance {
+                        minDistance = distance
+                        closestSkateboard = skateboardWithPhysics
+                    }
                 }
-                let position = SIMD3<Float>(firstResult.worldTransform.columns.3.x, firstResult.worldTransform.columns.3.y, firstResult.worldTransform.columns.3.z)
+            }
+            
+            
+            if(notChoosen){
+                applyPhysicsAndCollision(to: closestSkateboard)
+                notChoosen = false
+            }
+            
+            if let closestSkateboard = closestSkateboard {
+                print("holdin on to the board  \(closestSkateboard)")
+                
+                if (!isSkateboardInMotion){
+                    // parent.startImpulse()
+                }
+                
                 let tailOffset = SIMD3<Float>(0.0, 0.0, -0.1) // Adjust this value as necessary
                 let adjustedPosition = position + tailOffset
                 print("position: \(adjustedPosition)")
                 print("strength: \(kickDirection * kickStrength)")
                 
-                //                        skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = position
-                skateboardWithPhysics.applyImpulse(kickDirection * kickStrength, at: adjustedPosition, relativeTo: nil)
-                initialUserPosition = nil
+                closestSkateboard.applyImpulse(kickDirection * kickStrength, at: adjustedPosition, relativeTo: nil)
             }
         }
-        
     }
+    
     
     var isSkateboardInMotion: Bool {
         if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
@@ -142,7 +206,7 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
     
     
     static func setupARView(arView: ARView, context: UIViewRepresentableContext<ARViewContainer>, skateboardEntity: Binding<Entity?>, userDirection: Binding<SIMD3<Float>>) {
-        //        arView.debugOptions = .showPhysics
+        //                arView.debugOptions = .showPhysics
         //        arView.debugOptions.insert(.showSceneUnderstanding)
         
         // Set up the ARView's session configuration for LiDAR scanning
@@ -174,11 +238,40 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
             if let skateboard = skateAnchor.skateboard {
                 skateboardEntity.wrappedValue = skateboard
                 context.coordinator.parent.updateDirection(arView: arView)
-                if let skateboardWithPhysics = skateboard as? HasPhysics {
-                    applyPhysicsAndCollision(to: skateboardWithPhysics)
-                }
+                //                if let skateboardWithPhysics = skateboard as? HasPhysics {
+                //                    applyPhysicsAndCollision(to: skateboardWithPhysics)
+                //                }
                 //                startImpulse()
             }
+            
+            if let skateboard = skateAnchor.firstBoard {
+                context.coordinator.parent.firstEntity = skateboard
+            }
+            
+            if let skateboard = skateAnchor.secondBoard {
+                context.coordinator.parent.secondEntity = skateboard
+            }
+            
+            if let skateboard = skateAnchor.thirdBoard {
+                context.coordinator.parent.thirdEntity = skateboard
+            }
+            
+            
+            if let skateboard = skateAnchor.fifthBoard {
+                context.coordinator.parent.fifthEntity = skateboard
+            }
+            
+            
+            if let skateboard = skateAnchor.sixthBoard {
+                context.coordinator.parent.sixthEntity = skateboard
+            }
+            
+            
+            if let skateboard = skateAnchor.seventhBoard {
+                context.coordinator.parent.seventhEntity = skateboard
+            }
+            
+            
             arView.scene.anchors.append(skateAnchor)
         } catch {
             print("Failed to load the Skateboard scene from Experience Reality File: \(error)")

@@ -33,7 +33,7 @@ import SwiftUI
 
 struct RealityContentView: View {
     var body: some View {
-        if let url = URL(string: "https://developer.apple.com/ar/photogrammetry/PegasusTrail.usdz") {
+        if let url = URL(string: "https://developer.apple.com/augmented-reality/quick-look/models/gramophone/gramophone.usdz") {
             let realityKitView = RealityKitView(url: url)
             realityKitView
                 .onAppear {
