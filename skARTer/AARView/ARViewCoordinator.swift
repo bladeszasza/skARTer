@@ -140,14 +140,14 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
             }
             
             
-            if(notChoosen){
-                applyPhysicsAndCollision(to: closestSkateboard)
-                notChoosen = false
-            }
+          
             
             if let closestSkateboard = closestSkateboard {
                 print("holdin on to the board  \(closestSkateboard)")
-                
+                if(notChoosen){
+                    applyPhysicsAndCollision(to: closestSkateboard)
+                    notChoosen = false
+                }
                 if (!isSkateboardInMotion){
                     // parent.startImpulse()
                 }
