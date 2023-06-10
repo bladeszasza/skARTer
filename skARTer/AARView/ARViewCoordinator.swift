@@ -21,17 +21,39 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        //        let cameraTransform = frame.camera.transform
-        //        let cameraPosition = SIMD3<Float>(cameraTransform.columns.3.x, cameraTransform.columns.3.y, cameraTransform.columns.3.z)
-        
-        //        if let skateboardEntity = parent.skateboardEntity {
-        //            let skateboardPosition = skateboardEntity.position(relativeTo: nil)
-        //            let rotation = lookAt(eye: cameraPosition, center: skateboardPosition, up: SIMD3<Float>(0.0, 1.0, 0.0))
-        //            skateboardEntity.orientation = rotation
-        //            print("applied rotation: \(rotation)  skateboardPosition \(skateboardPosition) cameraPosition \(cameraPosition)")
-        //        }
+        if let skateboard = parent.eighthEntity,
+           let wheelEntity1 = skateboard.findEntity(named: "wheel_01_low") as? ModelEntity,
+           let wheelEntity2 = skateboard.findEntity(named: "wheel_02_low") as? ModelEntity,
+           let wheelEntity3 = skateboard.findEntity(named: "wheel_03_low") as? ModelEntity,
+           let wheelEntity4 = skateboard.findEntity(named: "wheel_04_low") as? ModelEntity {
+            
+            // Add all wheel entities into an array
+            let wheels = [wheelEntity1, wheelEntity2, wheelEntity3, wheelEntity4]
+            
+            // Check the physics body's linear velocity
+            if let skateboardWithPhysics = skateboard as? HasPhysics {
+                
+//                skateboardWithPhysics.physicsMotion?.linearVelocity += (parent.forwardDirectionForSkateboard * parent.pushStrength)
+            }
+            // Spin the wheels if the skateboard is moving
+            spin(wheels: wheels)
+        }
     }
     
+    
+    func spin(wheels: [ModelEntity]){
+        
+        let rotationSpeed: Float = 0.01 // Adjust this value to change the speed of rotation
+        
+        for wheel in wheels {
+            let deltaRotation = simd_quatf(angle: rotationSpeed, axis: SIMD3<Float>(0, 0, 1))
+            // Change the rotation
+            wheel.transform.rotation = wheel.transform.rotation * deltaRotation
+        }
+        
+        
+        
+    }
     
     
     func lookAt(eye: simd_float3, center: simd_float3, up: simd_float3) -> simd_quatf {
@@ -126,24 +148,24 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
             let skateboards = [parent.skateboardEntity, parent.firstEntity, parent.secondEntity, parent.thirdEntity, parent.fourthEntity, parent.fifthEntity, parent.sixthEntity, parent.seventhEntity]
             
             // Find the closest skateboard
-            var closestSkateboard: HasPhysics?
-            var minDistance: Float = Float.infinity
-            for skateboard in skateboards {
-                if let skateboardWithPhysics = skateboard as? HasPhysics {
-                    let skateboardPosition = skateboardWithPhysics.transform.translation
-                    let distance = simd_distance(position, skateboardPosition)
-                    if distance < minDistance {
-                        minDistance = distance
-                        closestSkateboard = skateboardWithPhysics
-                    }
-                }
-            }
+            var closestSkateboard = parent.eighthEntity as? HasPhysics
+            //                var minDistance: Float = Float.infinity
+            //                for skateboard in skateboards {
+            //                    if let skateboardWithPhysics = skateboard as? HasPhysics {
+            //                        let skateboardPosition = skateboardWithPhysics.transform.translation
+            //                        let distance = simd_distance(position, skateboardPosition)
+            //                        if distance < minDistance {
+            //                            minDistance = distance
+            //                            closestSkateboard = skateboardWithPhysics
+            //                        }
+            //                    }
+            //                }
             
             
-          
+            
             
             if let closestSkateboard = closestSkateboard {
-                print("holdin on to the board  \(closestSkateboard)")
+                //                print("holdin on to the board  \(closestSkateboard)")
                 if(notChoosen){
                     applyPhysicsAndCollision(to: closestSkateboard)
                     notChoosen = false
@@ -154,8 +176,8 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
                 
                 let tailOffset = SIMD3<Float>(0.0, 0.0, -0.1) // Adjust this value as necessary
                 let adjustedPosition = position + tailOffset
-                print("position: \(adjustedPosition)")
-                print("strength: \(kickDirection * kickStrength)")
+                //                print("position: \(adjustedPosition)")
+                //                print("strength: \(kickDirection * kickStrength)")
                 
                 closestSkateboard.applyImpulse(kickDirection * kickStrength, at: adjustedPosition, relativeTo: nil)
             }
@@ -200,13 +222,13 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
     
     var catchStrength: Float {
         // Check if the skateboard is in motion
-        return Float.random(in: 1.8...2.2)
+        return Float.random(in: 4.8...4.2)
     }
     
     
     
     static func setupARView(arView: ARView, context: UIViewRepresentableContext<ARViewContainer>, skateboardEntity: Binding<Entity?>, userDirection: Binding<SIMD3<Float>>) {
-        //                arView.debugOptions = .showPhysics
+//                        arView.debugOptions = .showPhysics
         //        arView.debugOptions.insert(.showSceneUnderstanding)
         
         // Set up the ARView's session configuration for LiDAR scanning
@@ -238,10 +260,6 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
             if let skateboard = skateAnchor.skateboard {
                 skateboardEntity.wrappedValue = skateboard
                 context.coordinator.parent.updateDirection(arView: arView)
-                //                if let skateboardWithPhysics = skateboard as? HasPhysics {
-                //                    applyPhysicsAndCollision(to: skateboardWithPhysics)
-                //                }
-                //                startImpulse()
             }
             
             if let skateboard = skateAnchor.firstBoard {
@@ -256,6 +274,9 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
                 context.coordinator.parent.thirdEntity = skateboard
             }
             
+            if let skateboard = skateAnchor.fourthBoarder {
+                context.coordinator.parent.fourthEntity = skateboard
+            }
             
             if let skateboard = skateAnchor.fifthBoard {
                 context.coordinator.parent.fifthEntity = skateboard
@@ -271,6 +292,9 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
                 context.coordinator.parent.seventhEntity = skateboard
             }
             
+            if let skateboard = skateAnchor.centerBoard {
+                context.coordinator.parent.eighthEntity = skateboard
+            }
             
             arView.scene.anchors.append(skateAnchor)
         } catch {

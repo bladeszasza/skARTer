@@ -43,5 +43,20 @@
     "libraryIdentifier" : "f08a32395d25893c8b43105cfdd6dedf",
     "format" : "model",
     "displayName" : "08.usdz"
+  },
+  {
+    "libraryIdentifier" : "e7f2388e67d988a399625426e589aafd",
+    "format" : "model",
+    "displayName" : "test.usdz"
+  },
+  {
+    "libraryIdentifier" : "547ba91d1a48c27385f74397fce05097",
+    "format" : "model",
+    "displayName" : "09.usdz"
+  },
+  {
+    "libraryIdentifier" : "70cbd34b3baf85aed56cfee794c5e8fa",
+    "format" : "model",
+    "displayName" : "08.usdz"
   }
 ]

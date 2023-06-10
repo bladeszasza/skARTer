@@ -51,13 +51,13 @@
                                           "target" : [
                                             "67428DA1-3E41-4BA6-91EE-5F9A94A89547",
                                             "9932DEAA-9F8E-4627-BF97-11A9E479C5DD",
-                                            "DC6022B3-C0F8-4E82-97AE-C69715963CF9",
                                             "8DD3BCD6-1AE6-4326-B178-8BD7FF7459F0",
                                             "7D706964-EA5D-4093-983E-8D2D4C339920",
                                             "A09DA209-C878-4AC9-B2C2-69F74714CEAE",
                                             "100D6FA1-E0F4-4259-A79C-7E712A7295DE",
                                             "CEDB4D2C-F555-4C6D-999E-E36B2B04E91A",
-                                            "83DD8D26-807F-4A68-A7D7-08256810DB42"
+                                            "83DD8D26-807F-4A68-A7D7-08256810DB42",
+                                            "B8A10651-2AAE-4B4A-9DE3-5D46A6D67991"
                                           ]
                                         },
                                         "name" : {
@@ -132,26 +132,30 @@
                                     {
                                       "configurationBox" : {
                                         "configuration" : {
-                                          "animationStyle" : "basic",
-                                          "duration" : 1.0299999713897705,
-                                          "emphasisAnimationType" : "flip",
+                                          "axis" : [
+                                            1,
+                                            0,
+                                            0
+                                          ],
+                                          "direction" : "clockwise",
+                                          "duration" : 1,
                                           "iterations" : 1,
                                           "target" : [
                                             "9932DEAA-9F8E-4627-BF97-11A9E479C5DD"
                                           ]
                                         },
                                         "name" : {
-                                          "type" : "emphasis"
+                                          "type" : "spin"
                                         }
                                       },
-                                      "identifier" : "591F0296-9177-415F-A25A-ECA9BD03E815",
+                                      "identifier" : "8BBF2AEE-201A-4A97-A561-3533CFD5DC2F",
                                       "isEnabled" : true
                                     }
                                   ],
                                   "__version" : 1
                                 }
                               ],
-                              "identifier" : "24729405-4933-4EAD-958C-3B5836ACB2B0",
+                              "identifier" : "B55E7EC7-AFC2-4E86-9CB4-0BCB111F8B73",
                               "isEnabled" : true
                             }
                           ],
@@ -215,26 +219,30 @@
                                     {
                                       "configurationBox" : {
                                         "configuration" : {
-                                          "animationStyle" : "basic",
+                                          "axis" : [
+                                            1,
+                                            0,
+                                            0
+                                          ],
+                                          "direction" : "clockwise",
                                           "duration" : 1.7699999809265137,
-                                          "emphasisAnimationType" : "flip",
                                           "iterations" : 1,
                                           "target" : [
                                             "67428DA1-3E41-4BA6-91EE-5F9A94A89547"
                                           ]
                                         },
                                         "name" : {
-                                          "type" : "emphasis"
+                                          "type" : "spin"
                                         }
                                       },
-                                      "identifier" : "1D54B61B-9158-4AE5-886C-FC81C9A6CDE8",
+                                      "identifier" : "93EE9BC6-6E4E-479F-B624-7A52F599E592",
                                       "isEnabled" : true
                                     }
                                   ],
                                   "__version" : 1
                                 }
                               ],
-                              "identifier" : "BC5C85CB-84D2-4D95-B738-3BB88142CB70",
+                              "identifier" : "6E3D0937-3476-4911-9931-A9B5F9CDDB38",
                               "isEnabled" : true
                             }
                           ],
@@ -298,26 +306,30 @@
                                     {
                                       "configurationBox" : {
                                         "configuration" : {
-                                          "animationStyle" : "basic",
-                                          "duration" : 1.7699999809265137,
-                                          "emphasisAnimationType" : "flip",
+                                          "axis" : [
+                                            1,
+                                            0,
+                                            0
+                                          ],
+                                          "direction" : "clockwise",
+                                          "duration" : 1,
                                           "iterations" : 1,
                                           "target" : [
                                             "8DD3BCD6-1AE6-4326-B178-8BD7FF7459F0"
                                           ]
                                         },
                                         "name" : {
-                                          "type" : "emphasis"
+                                          "type" : "spin"
                                         }
                                       },
-                                      "identifier" : "B5C24575-BA6C-4D18-A57E-8020B4A25914",
+                                      "identifier" : "9266226E-78E8-4061-B15E-832E576B7C7A",
                                       "isEnabled" : true
                                     }
                                   ],
                                   "__version" : 1
                                 }
                               ],
-                              "identifier" : "FCBC64AF-FBF7-4A57-9829-61FE9EEA8AB7",
+                              "identifier" : "6A60C05D-1071-4630-A33E-9C7B627C7093",
                               "isEnabled" : true
                             }
                           ],
@@ -381,26 +393,30 @@
                                     {
                                       "configurationBox" : {
                                         "configuration" : {
-                                          "animationStyle" : "basic",
+                                          "axis" : [
+                                            1,
+                                            0,
+                                            0
+                                          ],
+                                          "direction" : "clockwise",
                                           "duration" : 1.7699999809265137,
-                                          "emphasisAnimationType" : "flip",
                                           "iterations" : 1,
                                           "target" : [
                                             "A09DA209-C878-4AC9-B2C2-69F74714CEAE"
                                           ]
                                         },
                                         "name" : {
-                                          "type" : "emphasis"
+                                          "type" : "spin"
                                         }
                                       },
-                                      "identifier" : "332C3966-22F0-4D1A-9D71-BCE412D4A0C4",
+                                      "identifier" : "7794C78D-D7B7-418F-A2DA-290384D32BB6",
                                       "isEnabled" : true
                                     }
                                   ],
                                   "__version" : 1
                                 }
                               ],
-                              "identifier" : "304C5570-A4B2-49B9-9359-1436EC1F2319",
+                              "identifier" : "66C7546A-8CCE-4CE7-983F-676BBBEA377D",
                               "isEnabled" : true
                             }
                           ],
@@ -464,26 +480,30 @@
                                     {
                                       "configurationBox" : {
                                         "configuration" : {
-                                          "animationStyle" : "basic",
-                                          "duration" : 1.7699999809265137,
-                                          "emphasisAnimationType" : "flip",
+                                          "axis" : [
+                                            1,
+                                            0,
+                                            0
+                                          ],
+                                          "direction" : "clockwise",
+                                          "duration" : 1,
                                           "iterations" : 1,
                                           "target" : [
-                                            "DC6022B3-C0F8-4E82-97AE-C69715963CF9"
+
                                           ]
                                         },
                                         "name" : {
-                                          "type" : "emphasis"
+                                          "type" : "spin"
                                         }
                                       },
-                                      "identifier" : "3345975E-74FA-4B89-A138-1F4DC319C696",
+                                      "identifier" : "FF662325-18CA-4DC9-8638-8BCFB9B91D0A",
                                       "isEnabled" : true
                                     }
                                   ],
                                   "__version" : 1
                                 }
                               ],
-                              "identifier" : "AE8EDFC5-EA65-49D2-94DF-05FA444021D7",
+                              "identifier" : "264FDC54-F0E1-44D2-A66C-D50D568DF894",
                               "isEnabled" : true
                             }
                           ],
@@ -509,7 +529,7 @@
                                 "configuration" : {
                                   "distance" : 0.77929598093032837,
                                   "target" : [
-                                    "DC6022B3-C0F8-4E82-97AE-C69715963CF9"
+
                                   ],
                                   "type" : 0
                                 },
@@ -547,26 +567,30 @@
                                     {
                                       "configurationBox" : {
                                         "configuration" : {
-                                          "animationStyle" : "basic",
+                                          "axis" : [
+                                            1,
+                                            0,
+                                            0
+                                          ],
+                                          "direction" : "clockwise",
                                           "duration" : 1.7699999809265137,
-                                          "emphasisAnimationType" : "flip",
                                           "iterations" : 1,
                                           "target" : [
                                             "100D6FA1-E0F4-4259-A79C-7E712A7295DE"
                                           ]
                                         },
                                         "name" : {
-                                          "type" : "emphasis"
+                                          "type" : "spin"
                                         }
                                       },
-                                      "identifier" : "FDF4CA97-58CB-44EE-9990-9D5A3AE13330",
+                                      "identifier" : "B4E3ED99-A606-43C3-A1A9-E88CFBEE8D13",
                                       "isEnabled" : true
                                     }
                                   ],
                                   "__version" : 1
                                 }
                               ],
-                              "identifier" : "B275D684-85D5-4912-BDCA-9F270D328ADD",
+                              "identifier" : "95A3207C-2E91-44B2-B90F-BC7F82BBADD1",
                               "isEnabled" : true
                             }
                           ],
@@ -630,26 +654,30 @@
                                     {
                                       "configurationBox" : {
                                         "configuration" : {
-                                          "animationStyle" : "basic",
-                                          "duration" : 1.7699999809265137,
-                                          "emphasisAnimationType" : "flip",
+                                          "axis" : [
+                                            1,
+                                            0,
+                                            0
+                                          ],
+                                          "direction" : "clockwise",
+                                          "duration" : 1,
                                           "iterations" : 1,
                                           "target" : [
                                             "CEDB4D2C-F555-4C6D-999E-E36B2B04E91A"
                                           ]
                                         },
                                         "name" : {
-                                          "type" : "emphasis"
+                                          "type" : "spin"
                                         }
                                       },
-                                      "identifier" : "ABCA8EF1-CC07-4D7F-8E8E-1B02AC98664B",
+                                      "identifier" : "B027CD2A-25DF-4666-94D9-07CECE7319BB",
                                       "isEnabled" : true
                                     }
                                   ],
                                   "__version" : 1
                                 }
                               ],
-                              "identifier" : "3D09C234-EF59-40A0-BB42-CD7E4248E174",
+                              "identifier" : "723F7CD6-8170-4CE8-B2C2-49A9496DBFC7",
                               "isEnabled" : true
                             }
                           ],
@@ -713,26 +741,30 @@
                                     {
                                       "configurationBox" : {
                                         "configuration" : {
-                                          "animationStyle" : "basic",
-                                          "duration" : 1.7699999809265137,
-                                          "emphasisAnimationType" : "flip",
+                                          "axis" : [
+                                            1,
+                                            0,
+                                            0
+                                          ],
+                                          "direction" : "clockwise",
+                                          "duration" : 1,
                                           "iterations" : 1,
                                           "target" : [
                                             "7D706964-EA5D-4093-983E-8D2D4C339920"
                                           ]
                                         },
                                         "name" : {
-                                          "type" : "emphasis"
+                                          "type" : "spin"
                                         }
                                       },
-                                      "identifier" : "EB1702BE-5E27-4253-90D5-393FFE56D371",
+                                      "identifier" : "6CA22752-B59E-4F86-87FE-37FCE347BD6C",
                                       "isEnabled" : true
                                     }
                                   ],
                                   "__version" : 1
                                 }
                               ],
-                              "identifier" : "1D7E2B7D-DDF8-43C5-8765-A3C5BB5A521E",
+                              "identifier" : "C8E14D8B-5C44-4050-AE78-A14F92AF42BB",
                               "isEnabled" : true
                             }
                           ],
@@ -796,26 +828,30 @@
                                     {
                                       "configurationBox" : {
                                         "configuration" : {
-                                          "animationStyle" : "basic",
-                                          "duration" : 1.7699999809265137,
-                                          "emphasisAnimationType" : "flip",
+                                          "axis" : [
+                                            1,
+                                            0,
+                                            0
+                                          ],
+                                          "direction" : "clockwise",
+                                          "duration" : 1,
                                           "iterations" : 1,
                                           "target" : [
                                             "83DD8D26-807F-4A68-A7D7-08256810DB42"
                                           ]
                                         },
                                         "name" : {
-                                          "type" : "emphasis"
+                                          "type" : "spin"
                                         }
                                       },
-                                      "identifier" : "67174060-2CA5-4AFF-8109-14A900922C10",
+                                      "identifier" : "9EF70F6A-8E4C-4909-B248-A10175B0991A",
                                       "isEnabled" : true
                                     }
                                   ],
                                   "__version" : 1
                                 }
                               ],
-                              "identifier" : "1A2E3287-ED28-4B1C-98A2-1AAC8278191D",
+                              "identifier" : "19CCEB48-C4FE-4CF7-BBA1-2606C9224A0B",
                               "isEnabled" : true
                             }
                           ],
@@ -1287,7 +1323,7 @@
                       ]
                     }
                   },
-                  "9A2AA2F4-6203-40FD-AC71-D8A0DC96D49E" : {
+                  "8E1BFBCB-65DC-4E2A-A0C8-B1B5C535CB38" : {
                     "overrides" : {
                       "children" : {
                         "USDScene" : {
@@ -1311,7 +1347,7 @@
                                 "url",
                                 {
                                   "typeName" : "String",
-                                  "value" : "model:f08a32395d25893c8b43105cfdd6dedf\/08.usdz"
+                                  "value" : "model:70cbd34b3baf85aed56cfee794c5e8fa\/08.usdz"
                                 }
                               ],
                               [
@@ -1331,7 +1367,7 @@
                                 "RuntimeIdentifier",
                                 {
                                   "typeName" : "UUID",
-                                  "value" : "3802509E-519F-4769-BE77-5DD1E46F5A62"
+                                  "value" : "D4E83BA7-DC2F-40C4-8785-5858FC4268B4"
                                 }
                               ]
                             ]
@@ -1367,7 +1403,7 @@
                           "RuntimeIdentifier",
                           {
                             "typeName" : "UUID",
-                            "value" : "DC6022B3-C0F8-4E82-97AE-C69715963CF9"
+                            "value" : "A2651AB4-80E1-48E3-964C-8433AEC86F36"
                           }
                         ],
                         [
@@ -1395,13 +1431,6 @@
                               }
                             }
                           }
-                        ],
-                        [
-                          "rigidBody-motionType",
-                          {
-                            "typeName" : "REMotionType",
-                            "value" : "static"
-                          }
                         ]
                       ]
                     },
@@ -1420,12 +1449,13 @@
                         1,
                         0,
                         -0.004999999888241291,
-                        0,
+                        -7.4505805969238281e-09,
                         0,
                         1
                       ]
                     }
                   },
+                  "9A2AA2F4-6203-40FD-AC71-D8A0DC96D49E" : null,
                   "15A0223A-8EB5-4F20-B19E-6CD08139DB91" : {
                     "overrides" : {
                       "children" : {
@@ -1565,6 +1595,138 @@
                       ]
                     }
                   },
+                  "22CF0F1A-2A68-43F5-8101-7A71B51DE213" : {
+                    "overrides" : {
+                      "children" : {
+                        "USDScene" : {
+                          "overrides" : {
+                            "arguments" : [
+                              [
+                                "includeSceneScaling",
+                                {
+                                  "typeName" : "Bool",
+                                  "value" : false
+                                }
+                              ],
+                              [
+                                "subpath",
+                                {
+                                  "typeName" : "String",
+                                  "value" : ""
+                                }
+                              ],
+                              [
+                                "url",
+                                {
+                                  "typeName" : "String",
+                                  "value" : "model:e7f2388e67d988a399625426e589aafd\/test.usdz"
+                                }
+                              ],
+                              [
+                                "withDescendants",
+                                {
+                                  "typeName" : "Bool",
+                                  "value" : true
+                                }
+                              ]
+                            ],
+                            "factory" : {
+                              "identifier" : "com.apple.af.FileImportAssetFactory",
+                              "version" : "0.0"
+                            },
+                            "runtimeAttributes" : [
+                              [
+                                "RuntimeIdentifier",
+                                {
+                                  "typeName" : "UUID",
+                                  "value" : "9A504FDF-3CCC-4DB6-AB0B-0F8F60F44CB8"
+                                }
+                              ]
+                            ]
+                          },
+                          "transform" : {
+                            "matrix" : [
+                              0.0099999997764825821,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0.0099999997764825821,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0.0099999997764825821,
+                              0,
+                              0,
+                              0,
+                              0,
+                              1
+                            ]
+                          }
+                        }
+                      },
+                      "factory" : {
+                        "identifier" : "com.apple.af.Group",
+                        "version" : "0.0"
+                      },
+                      "runtimeAttributes" : [
+                        [
+                          "RuntimeIdentifier",
+                          {
+                            "typeName" : "UUID",
+                            "value" : "5BF8220B-AFD5-4A8C-AB33-118160779669"
+                          }
+                        ],
+                        [
+                          "entityName",
+                          {
+                            "typeName" : "String",
+                            "value" : "fourthBoard"
+                          }
+                        ],
+                        [
+                          "rigidBody-enabled",
+                          {
+                            "typeName" : "Bool",
+                            "value" : true
+                          }
+                        ],
+                        [
+                          "rigidBody-material",
+                          {
+                            "typeName" : "RigidBodyMaterial",
+                            "value" : {
+                              "builtIn" : "wood",
+                              "overrides" : {
+
+                              }
+                            }
+                          }
+                        ]
+                      ]
+                    },
+                    "transform" : {
+                      "matrix" : [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -0.56672930717468262,
+                        5.2154064178466797e-08,
+                        1.5667893886566162,
+                        1
+                      ]
+                    }
+                  },
                   "28FDC9E5-8D42-4F70-9008-CFE79912DF3E" : {
                     "overrides" : {
                       "children" : {
@@ -1652,7 +1814,7 @@
                           "entityName",
                           {
                             "typeName" : "String",
-                            "value" : "fourthBoard"
+                            "value" : "fourthBoarda"
                           }
                         ],
                         [
@@ -1699,7 +1861,7 @@
                         0,
                         0.004999999888241291,
                         -1.4901161193847656e-08,
-                        2,
+                        1,
                         1
                       ]
                     }
@@ -2122,7 +2284,139 @@
                       ]
                     }
                   },
-                  "B91C7CA3-4AB1-4253-9A84-07383168A8A8" : null
+                  "B91C7CA3-4AB1-4253-9A84-07383168A8A8" : null,
+                  "D4534C56-45A0-4893-9555-21CAB369A932" : {
+                    "overrides" : {
+                      "children" : {
+                        "USDScene" : {
+                          "overrides" : {
+                            "arguments" : [
+                              [
+                                "includeSceneScaling",
+                                {
+                                  "typeName" : "Bool",
+                                  "value" : false
+                                }
+                              ],
+                              [
+                                "subpath",
+                                {
+                                  "typeName" : "String",
+                                  "value" : ""
+                                }
+                              ],
+                              [
+                                "url",
+                                {
+                                  "typeName" : "String",
+                                  "value" : "model:547ba91d1a48c27385f74397fce05097\/09.usdz"
+                                }
+                              ],
+                              [
+                                "withDescendants",
+                                {
+                                  "typeName" : "Bool",
+                                  "value" : true
+                                }
+                              ]
+                            ],
+                            "factory" : {
+                              "identifier" : "com.apple.af.FileImportAssetFactory",
+                              "version" : "0.0"
+                            },
+                            "runtimeAttributes" : [
+                              [
+                                "RuntimeIdentifier",
+                                {
+                                  "typeName" : "UUID",
+                                  "value" : "9C6D2D95-EC78-46DD-85A8-7A99FDF10562"
+                                }
+                              ]
+                            ]
+                          },
+                          "transform" : {
+                            "matrix" : [
+                              1,
+                              0,
+                              0,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                              0,
+                              0,
+                              1
+                            ]
+                          }
+                        }
+                      },
+                      "factory" : {
+                        "identifier" : "com.apple.af.Group",
+                        "version" : "0.0"
+                      },
+                      "runtimeAttributes" : [
+                        [
+                          "RuntimeIdentifier",
+                          {
+                            "typeName" : "UUID",
+                            "value" : "B8A10651-2AAE-4B4A-9DE3-5D46A6D67991"
+                          }
+                        ],
+                        [
+                          "entityName",
+                          {
+                            "typeName" : "String",
+                            "value" : "fourthBoarder"
+                          }
+                        ],
+                        [
+                          "rigidBody-enabled",
+                          {
+                            "typeName" : "Bool",
+                            "value" : true
+                          }
+                        ],
+                        [
+                          "rigidBody-material",
+                          {
+                            "typeName" : "RigidBodyMaterial",
+                            "value" : {
+                              "builtIn" : "wood",
+                              "overrides" : {
+
+                              }
+                            }
+                          }
+                        ]
+                      ]
+                    },
+                    "transform" : {
+                      "matrix" : [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0.0050000296905636787,
+                        0,
+                        -0.80710262060165405,
+                        1
+                      ]
+                    }
+                  }
                 },
                 "factory" : null,
                 "runtimeAttributes" : [
@@ -2151,9 +2445,9 @@
                   0.22332918643951416,
                   0.86567544937133789,
                   0,
-                  1.6026647090911865,
-                  0.42990949749946594,
-                  3.3223686218261719,
+                  1.6985881328582764,
+                  0.90077638626098633,
+                  3.1512477397918701,
                   1
                 ],
                 "sceneTransform" : [

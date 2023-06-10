@@ -22,6 +22,7 @@ struct ARViewContainer: UIViewRepresentable {
     var fifthEntity: Entity? // Used to store the skateboard entity
     var sixthEntity: Entity? // Used to store the skateboard entity
     var seventhEntity: Entity? // Used to store the skateboard entity
+    var eighthEntity: Entity? // Used to store the skateboard entity
     
     @State private var impulseStartDate: Date? = nil // Used to store the start date of impulse
     @State var userDirection: SIMD3<Float> = SIMD3<Float>(0.0, -1.1, 0.7) // Direction of the user
@@ -44,7 +45,10 @@ struct ARViewContainer: UIViewRepresentable {
         return arView
     }
     
-    func updateUIView(_ uiView: ARView, context: Context) {}
+    func updateUIView(_ uiView: ARView, context: Context) {
+    }
+    
+    
     
     func makeCoordinator() -> ARViewCoordinator {
         return ARViewCoordinator(self)
