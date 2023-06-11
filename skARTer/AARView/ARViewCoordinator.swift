@@ -14,8 +14,6 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
     let inMotionChanger: SIMD3<Float> = SIMD3<Float>(0.0, 1.0, -1.0)
     var notChoosen = true
     
-    
-    
     init(_ parent: ARViewContainer) {
         self.parent = parent
     }
@@ -30,11 +28,6 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
             // Add all wheel entities into an array
             let wheels = [wheelEntity1, wheelEntity2, wheelEntity3, wheelEntity4]
             
-            // Check the physics body's linear velocity
-            if let skateboardWithPhysics = skateboard as? HasPhysics {
-                
-//                skateboardWithPhysics.physicsMotion?.linearVelocity += (parent.forwardDirectionForSkateboard * parent.pushStrength)
-            }
             // Spin the wheels if the skateboard is moving
             spin(wheels: wheels)
         }
@@ -42,17 +35,13 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
     
     
     func spin(wheels: [ModelEntity]){
-        
-        let rotationSpeed: Float = 0.01 // Adjust this value to change the speed of rotation
+        let rotationSpeed: Float = 0.1 // Adjust this value to change the speed of rotation
         
         for wheel in wheels {
             let deltaRotation = simd_quatf(angle: rotationSpeed, axis: SIMD3<Float>(0, 0, 1))
             // Change the rotation
             wheel.transform.rotation = wheel.transform.rotation * deltaRotation
         }
-        
-        
-        
     }
     
     
@@ -74,7 +63,6 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
     
     func sessionWasInterrupted(_ session: ARSession) {
         // The session got interrupted (probably due to navigating back), so stop the recording
-        
     }
     
     @objc func handleLongPress(_ sender: UILongPressGestureRecognizer){
@@ -89,50 +77,25 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
                 
                 //                    skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = position
                 skateboardWithPhysics.addForce(kickDirection * catchStrength, at: position, relativeTo: nil)
-                
             }
         }
     }
     
-    
-    //    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-    //        print("handleTap")
-    //
-    //
-    //        if let skateboardWithPhysics = (parent.skateboardEntity as? HasPhysics) {
-    //            if(notChoosen){
-    //                print("applyed")
-    //                applyPhysicsAndCollision(to: skateboardWithPhysics)
-    //                notChoosen = false
-    //            }
-    //        }
-    //
-    //        // Perform hit test
-    //        let location = sender.location(in: parent.arView)
-    //        let results = parent.arView.raycast(from: location, allowing: .estimatedPlane, alignment: .any)
-    //        print("results \(results)")
-    //
-    //        if let firstResult = results.first {
-    //            print("had result \(firstResult)")
-    //            // Apply impulse on the tapped location
-    //            if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
-    //
-    //                    print("holdin on to the board  \(skateboardWithPhysics)")
-    //                if (!isSkateboardInMotion){
-    //                    //                    parent.startImpulse()
-    //                }
-    //                let position = SIMD3<Float>(firstResult.worldTransform.columns.3.x, firstResult.worldTransform.columns.3.y, firstResult.worldTransform.columns.3.z)
-    //                let tailOffset = SIMD3<Float>(0.0, 0.0, -0.1) // Adjust this value as necessary
-    //                let adjustedPosition = position + tailOffset
-    //                print("position: \(adjustedPosition)")
-    //                print("strength: \(kickDirection * kickStrength)")
-    //
-    //                //                        skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = position
-    //                skateboardWithPhysics.applyImpulse(kickDirection * kickStrength, at: adjustedPosition, relativeTo: nil)
-    //            }
-    //        }
-    //
-    //    }
+    @objc func handleSwipe(_ sender: UISwipeGestureRecognizer) {
+        if let skateboardWithPhysics = parent.eighthEntity as? HasPhysics {
+            // Adjust the force and direction values as necessary
+            let force = SIMD3<Float>(3.0, 0.0, 0.0)
+            skateboardWithPhysics.applyImpulse(force, at:[0.3, 0.002, 0.0], relativeTo: nil)
+        }
+    }
+
+    @objc func handleRotation(_ sender: UIRotationGestureRecognizer) {
+        if let skateboardWithPhysics = parent.eighthEntity as? HasPhysics {
+            let rotationAngle = Float(sender.rotation)
+            let rotation = simd_quatf(angle: rotationAngle, axis: SIMD3<Float>(0, -1, 0)) // Rotate around the y-axis
+            skateboardWithPhysics.transform.rotation = rotation
+        }
+    }
     
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
@@ -170,16 +133,23 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
                     applyPhysicsAndCollision(to: closestSkateboard)
                     notChoosen = false
                 }
-                if (!isSkateboardInMotion){
-                    // parent.startImpulse()
-                }
-                
+
                 let tailOffset = SIMD3<Float>(0.0, 0.0, -0.1) // Adjust this value as necessary
                 let adjustedPosition = position + tailOffset
-                //                print("position: \(adjustedPosition)")
-                //                print("strength: \(kickDirection * kickStrength)")
                 
-                closestSkateboard.applyImpulse(kickDirection * kickStrength, at: adjustedPosition, relativeTo: nil)
+                let distanceToSkateboard = length(adjustedPosition - closestSkateboard.position)
+
+                    // Normalize kickStrength by distance
+                    let normalizedKickStrength = kickStrength / max(distanceToSkateboard, 1) // Avoid division by zero
+                                print("position: \(adjustedPosition)")
+                                print("kickStrength: \(kickStrength)")
+                                print("kickDirection: \(kickDirection)")
+                print("normalizedKickStrength: \(normalizedKickStrength)")
+                                print("kickDirection * normalizedKickStrength: \(kickDirection * normalizedKickStrength)")
+                
+
+                
+                closestSkateboard.applyImpulse(kickDirection * normalizedKickStrength, at: adjustedPosition, relativeTo: nil)
             }
         }
     }
@@ -309,6 +279,15 @@ class ARViewCoordinator: NSObject, UIGestureRecognizerDelegate,  ARSessionDelega
         let longPressGesture = UILongPressGestureRecognizer(target: context.coordinator, action: #selector(handleLongPress(_:)))
         arView.addGestureRecognizer(longPressGesture)
         
+        // Add swipe gesture recognizer
+        let swipeGesture = UISwipeGestureRecognizer(target: context.coordinator, action: #selector(handleSwipe(_:)))
+        swipeGesture.direction = .down // Specify the direction
+        arView.addGestureRecognizer(swipeGesture)
+
+        // Add rotation gesture recognizer
+        let rotationGesture = UIRotationGestureRecognizer(target: context.coordinator, action: #selector(handleRotation(_:)))
+        arView.addGestureRecognizer(rotationGesture)
+
     }
     
     // ...rest of your methods, copied over from Coordinator
