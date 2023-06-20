@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-    
+        UIApplication.shared.isIdleTimerDisabled = true
         // Use a UIHostingController as window root view controller.
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.rootViewController = RootViewController()
@@ -33,10 +33,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
+        
+        UIApplication.shared.isIdleTimerDisabled = false
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
+        
+        UIApplication.shared.isIdleTimerDisabled = true
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 

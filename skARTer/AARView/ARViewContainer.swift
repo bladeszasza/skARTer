@@ -13,7 +13,8 @@ struct ARViewContainer: UIViewRepresentable {
     
     // Make these as properties
     var arView: ARView = ARView(frame: .zero)
-    
+    var initialSkateboardTransform: Transform? // Store the initial transform of your skateboard
+
     @Binding var skateboardEntity: Entity? // Used to store the skateboard entity
     var firstEntity: Entity? // Used to store the skateboard entity
     var secondEntity: Entity? // Used to store the skateboard entity
@@ -53,5 +54,7 @@ struct ARViewContainer: UIViewRepresentable {
     func makeCoordinator() -> ARViewCoordinator {
         return ARViewCoordinator(self)
     }
+    
+    
 }
 

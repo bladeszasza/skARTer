@@ -17,6 +17,7 @@ class RootViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("view did load")
         
         let contentView = ContentView(recordingState: recordingState)
         let hostingController = UIHostingController(rootView: contentView)
@@ -45,6 +46,11 @@ class RootViewController: UIViewController {
             }
         }
     }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+
     
     deinit {
         cancellable?.cancel()  // Stop observing when the view controller is deallocated

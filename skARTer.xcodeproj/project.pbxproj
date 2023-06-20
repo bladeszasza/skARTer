@@ -17,6 +17,7 @@
 		4025AD822A2C51B50038BF52 /* RealityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4025AD812A2C51B50038BF52 /* RealityViewController.swift */; };
 		4025AD852A2C528C0038BF52 /* RealityKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4025AD842A2C528C0038BF52 /* RealityKitView.swift */; };
 		4025AD872A2C547C0038BF52 /* RealityContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4025AD862A2C547C0038BF52 /* RealityContentView.swift */; };
+		4025AD8A2A39DE610038BF52 /* SkateEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4025AD892A39DE610038BF52 /* SkateEntity.swift */; };
 		405804392A1E384900B6BE8C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405804382A1E384900B6BE8C /* AppDelegate.swift */; };
 		4058043B2A1E384900B6BE8C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4058043A2A1E384900B6BE8C /* ContentView.swift */; };
 		4058043D2A1E384900B6BE8C /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = 4058043C2A1E384900B6BE8C /* Experience.rcproject */; };
@@ -56,6 +57,7 @@
 		4025AD812A2C51B50038BF52 /* RealityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityViewController.swift; sourceTree = "<group>"; };
 		4025AD842A2C528C0038BF52 /* RealityKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitView.swift; sourceTree = "<group>"; };
 		4025AD862A2C547C0038BF52 /* RealityContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityContentView.swift; sourceTree = "<group>"; };
+		4025AD892A39DE610038BF52 /* SkateEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkateEntity.swift; sourceTree = "<group>"; };
 		405804352A1E384900B6BE8C /* skARTer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = skARTer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		405804382A1E384900B6BE8C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4058043A2A1E384900B6BE8C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 		4025AD762A28B00E0038BF52 /* AARView */ = {
 			isa = PBXGroup;
 			children = (
+				4025AD882A39DE350038BF52 /* AREntity */,
 				405804642A1E3B1800B6BE8C /* ARViewContainer.swift */,
 				4025AD772A28B0230038BF52 /* ARViewExtensions.swift */,
 				4025AD792A28B0750038BF52 /* ARViewPhysics.swift */,
@@ -130,6 +133,14 @@
 				4025AD812A2C51B50038BF52 /* RealityViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		4025AD882A39DE350038BF52 /* AREntity */ = {
+			isa = PBXGroup;
+			children = (
+				4025AD892A39DE610038BF52 /* SkateEntity.swift */,
+			);
+			path = AREntity;
 			sourceTree = "<group>";
 		};
 		4058042C2A1E384900B6BE8C = {
@@ -329,6 +340,7 @@
 				4025AD7F2A2C51720038BF52 /* GLBManager.swift in Sources */,
 				4058043B2A1E384900B6BE8C /* ContentView.swift in Sources */,
 				4025AD732A27712D0038BF52 /* RootViewController.swift in Sources */,
+				4025AD8A2A39DE610038BF52 /* SkateEntity.swift in Sources */,
 				4025AD852A2C528C0038BF52 /* RealityKitView.swift in Sources */,
 				405804392A1E384900B6BE8C /* AppDelegate.swift in Sources */,
 				405804652A1E3B1800B6BE8C /* ARViewContainer.swift in Sources */,
