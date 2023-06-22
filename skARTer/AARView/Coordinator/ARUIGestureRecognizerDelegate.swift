@@ -34,7 +34,7 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
             // Apply impulse on the tapped location
             if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
                 let position = SIMD3<Float>(firstResult.worldTransform.columns.3.x, firstResult.worldTransform.columns.3.y, firstResult.worldTransform.columns.3.z)
-                
+                print("press applied")
                 //                    skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = position
                 skateboardWithPhysics.addForce(kickDirection * catchStrength, at: position, relativeTo: skateboardWithPhysics)
             }
@@ -84,8 +84,6 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
             }
             
         }
-        
-        
         
     }
     
@@ -201,7 +199,8 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
         }
     }
     
-    // MARK: -- helper methods
+    // MARK: Helper Methods
+
     
     let inMotionChanger: SIMD3<Float> = SIMD3<Float>(0.0, 1.0, -1.0)
     var notChoosen = true

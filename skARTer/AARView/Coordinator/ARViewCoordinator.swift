@@ -159,37 +159,37 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         }
         
         // Add tap gesture recognizer
-        let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(rotationDelegate.handleTap(_:)))
+        let tapGesture = UITapGestureRecognizer(target: rotationDelegate, action: #selector(rotationDelegate.handleTap(_:)))
         tapGesture.numberOfTapsRequired = 1
         tapGesture.delegate = rotationDelegate
         arView.addGestureRecognizer(tapGesture)
         
         // Add tap gesture recognizer
-        let longPressGesture = UILongPressGestureRecognizer(target: context.coordinator, action: #selector(rotationDelegate.handleLongPress(_:)))
+        let longPressGesture = UILongPressGestureRecognizer(target: rotationDelegate, action: #selector(rotationDelegate.handleLongPress(_:)))
         longPressGesture.delegate = rotationDelegate
 //        longPressGesture.num
         arView.addGestureRecognizer(longPressGesture)
         
         // Add swipe gesture recognizer
-        let swipeGestureDown = UISwipeGestureRecognizer(target: context.coordinator, action: #selector(rotationDelegate.handleSwipe(_:)))
+        let swipeGestureDown = UISwipeGestureRecognizer(target: rotationDelegate, action: #selector(rotationDelegate.handleSwipe(_:)))
         swipeGestureDown.delegate = rotationDelegate
         swipeGestureDown.direction = .down // Specify the direction
         arView.addGestureRecognizer(swipeGestureDown)
         
         // Add swipe gesture recognizer
-        let swipeGestureLeft = UISwipeGestureRecognizer(target: context.coordinator, action: #selector(rotationDelegate.handleSwipeGestureLeft(_:)))
+        let swipeGestureLeft = UISwipeGestureRecognizer(target: rotationDelegate, action: #selector(rotationDelegate.handleSwipeGestureLeft(_:)))
         swipeGestureLeft.delegate = rotationDelegate
         swipeGestureLeft.direction = .left // Specify the direction
         arView.addGestureRecognizer(swipeGestureLeft)
         
         // Add swipe gesture recognizer
-        let swipeGestureRight = UISwipeGestureRecognizer(target: context.coordinator, action: #selector(rotationDelegate.handleSwipeGestureRight(_:)))
+        let swipeGestureRight = UISwipeGestureRecognizer(target: rotationDelegate, action: #selector(rotationDelegate.handleSwipeGestureRight(_:)))
         swipeGestureRight.delegate = rotationDelegate
         swipeGestureRight.direction = .right // Specify the direction
         arView.addGestureRecognizer(swipeGestureRight)
         
         // Add rotation gesture recognizer
-        let rotationGesture = UIRotationGestureRecognizer(target: context.coordinator, action: #selector(rotationDelegate.handleRotation(_:)))
+        let rotationGesture = UIRotationGestureRecognizer(target: rotationDelegate, action: #selector(rotationDelegate.handleRotation(_:)))
         rotationGesture.delegate = rotationDelegate
         arView.addGestureRecognizer(rotationGesture)
         
