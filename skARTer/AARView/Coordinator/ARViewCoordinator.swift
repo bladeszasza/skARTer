@@ -12,9 +12,12 @@ import SwiftUI
 class ARViewCoordinator: NSObject, ARSessionDelegate {
     var parent: ARViewContainer
     
+    // set up gesture delegate
+    var gestureDelegate: ARUIGestureRecognizerDelegate
     
     init(_ parent: ARViewContainer) {
         self.parent = parent
+        self.gestureDelegate = ARUIGestureRecognizerDelegate(parent)
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
@@ -109,8 +112,6 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         // Run the session with the configuration
         arView.session.run(config)
         
-        // set up gesture delegate
-        let rotationDelegate = ARUIGestureRecognizerDelegate(context.coordinator.parent)
         
         do {
             let skateAnchor = try Experience.loadSkateboard()
@@ -157,40 +158,40 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         } catch {
             print("Failed to load the Skateboard scene from Experience Reality File: \(error)")
         }
-        
+        print("set up tap ")
         // Add tap gesture recognizer
-        let tapGesture = UITapGestureRecognizer(target: rotationDelegate, action: #selector(rotationDelegate.handleTap(_:)))
+        let tapGesture = UITapGestureRecognizer(target: context.coordinator.gestureDelegate, action: #selector(context.coordinator.gestureDelegate.handleTap(_:)))
         tapGesture.numberOfTapsRequired = 1
-        tapGesture.delegate = rotationDelegate
+        tapGesture.delegate = context.coordinator.gestureDelegate
         arView.addGestureRecognizer(tapGesture)
         
         // Add tap gesture recognizer
-        let longPressGesture = UILongPressGestureRecognizer(target: rotationDelegate, action: #selector(rotationDelegate.handleLongPress(_:)))
-        longPressGesture.delegate = rotationDelegate
+        let longPressGesture = UILongPressGestureRecognizer(target: context.coordinator.gestureDelegate, action: #selector(context.coordinator.gestureDelegate.handleLongPress(_:)))
+        longPressGesture.delegate = context.coordinator.gestureDelegate
 //        longPressGesture.num
         arView.addGestureRecognizer(longPressGesture)
         
         // Add swipe gesture recognizer
-        let swipeGestureDown = UISwipeGestureRecognizer(target: rotationDelegate, action: #selector(rotationDelegate.handleSwipe(_:)))
-        swipeGestureDown.delegate = rotationDelegate
+        let swipeGestureDown = UISwipeGestureRecognizer(target: context.coordinator.gestureDelegate, action: #selector(context.coordinator.gestureDelegate.handleSwipe(_:)))
+        swipeGestureDown.delegate = context.coordinator.gestureDelegate
         swipeGestureDown.direction = .down // Specify the direction
         arView.addGestureRecognizer(swipeGestureDown)
         
         // Add swipe gesture recognizer
-        let swipeGestureLeft = UISwipeGestureRecognizer(target: rotationDelegate, action: #selector(rotationDelegate.handleSwipeGestureLeft(_:)))
-        swipeGestureLeft.delegate = rotationDelegate
+        let swipeGestureLeft = UISwipeGestureRecognizer(target: context.coordinator.gestureDelegate, action: #selector(context.coordinator.gestureDelegate.handleSwipeGestureLeft(_:)))
+        swipeGestureLeft.delegate = context.coordinator.gestureDelegate
         swipeGestureLeft.direction = .left // Specify the direction
         arView.addGestureRecognizer(swipeGestureLeft)
         
         // Add swipe gesture recognizer
-        let swipeGestureRight = UISwipeGestureRecognizer(target: rotationDelegate, action: #selector(rotationDelegate.handleSwipeGestureRight(_:)))
-        swipeGestureRight.delegate = rotationDelegate
+        let swipeGestureRight = UISwipeGestureRecognizer(target: context.coordinator.gestureDelegate, action: #selector(context.coordinator.gestureDelegate.handleSwipeGestureRight(_:)))
+        swipeGestureRight.delegate = context.coordinator.gestureDelegate
         swipeGestureRight.direction = .right // Specify the direction
         arView.addGestureRecognizer(swipeGestureRight)
         
         // Add rotation gesture recognizer
-        let rotationGesture = UIRotationGestureRecognizer(target: rotationDelegate, action: #selector(rotationDelegate.handleRotation(_:)))
-        rotationGesture.delegate = rotationDelegate
+        let rotationGesture = UIRotationGestureRecognizer(target: context.coordinator.gestureDelegate, action: #selector(context.coordinator.gestureDelegate.handleRotation(_:)))
+        rotationGesture.delegate = context.coordinator.gestureDelegate
         arView.addGestureRecognizer(rotationGesture)
         
 //        // Add double tap gesture recognizer

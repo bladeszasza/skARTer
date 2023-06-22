@@ -17,6 +17,7 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
     var parent: ARViewContainer
     
     init(_ parent: ARViewContainer) {
+        print("parent set up")
         self.parent = parent
     }
     
@@ -26,6 +27,7 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
     
     
     @objc func handleLongPress(_ sender: UILongPressGestureRecognizer){
+        print("long press")
         // Perform hit test
         let location = sender.location(in: parent.arView)
         let results = parent.arView.raycast(from: location, allowing: .estimatedPlane, alignment: .any)
@@ -41,18 +43,18 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
         }
     }
     
-    @objc func handlePinch(_ sender: UIPinchGestureRecognizer) {
-        guard sender.state == .changed || sender.state == .ended else { return }
-        
-        if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
-            let scaleChange = Float(sender.scale)
-            // Apply the scale change to the current scale
-            let newScale = skateboardWithPhysics.scale * scaleChange
-            skateboardWithPhysics.scale = newScale
-            // Reset the sender scale so the next change starts from 1
-            sender.scale = 1.0
-        }
-    }
+//    @objc func handlePinch(_ sender: UIPinchGestureRecognizer) {
+//        guard sender.state == .changed || sender.state == .ended else { return }
+//
+//        if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
+//            let scaleChange = Float(sender.scale)
+//            // Apply the scale change to the current scale
+//            let newScale = skateboardWithPhysics.scale * scaleChange
+//            skateboardWithPhysics.scale = newScale
+//            // Reset the sender scale so the next change starts from 1
+//            sender.scale = 1.0
+//        }
+//    }
     
     
     
@@ -112,6 +114,7 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
     
     
     @objc func handleRotation(_ sender: UIRotationGestureRecognizer) {
+        print("rotation")
         guard sender.state == .changed || sender.state == .ended else { return }
         
         if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
@@ -126,21 +129,22 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
         }
     }
     
-    @objc func handleDoubleTap(_ sender: UITapGestureRecognizer) {
-        // Handle double tap
-        print("Double tapped!")
-        // Your double tap logic here
-        
+//    @objc func handleDoubleTap(_ sender: UITapGestureRecognizer) {
+//        // Handle double tap
+//        print("Double tapped!")
+//         Your double tap logic here
+//
 //        if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics, let initTransform = initialSkateboardTransform {
 //
 //            print("initial transform ation applied")
 //            skateboardWithPhysics.transform = initTransform
 //        }
-    }
+//    }
     
     
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        print("tap press")
         // Perform hit test
         let location = sender.location(in: parent.arView)
         let results = parent.arView.raycast(from: location, allowing: .estimatedPlane, alignment: .any)
