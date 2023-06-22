@@ -27,21 +27,61 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
     
     
     @objc func handleLongPress(_ sender: UILongPressGestureRecognizer){
-        print("long press")
-        // Perform hit test
+
+
         let location = sender.location(in: parent.arView)
         let results = parent.arView.raycast(from: location, allowing: .estimatedPlane, alignment: .any)
+        let relativeZ = (Float(location.x / parent.arView.bounds.width) - 0.5) * deckSize.z
+        //due to the reason the height of the screen represents the height of the skateboard and the width the width
+        let relativeX = (Float(location.y / parent.arView.bounds.height) - 0.5) * deckSize.x
+        let worldPositionOnSkateboard = SIMD3<Float>(relativeX, 0.02, relativeZ)//SIMD3<Float>(relativeX, 0.02, relativeZ)
+
+        guard let firstResult = results.first, let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics else { return }
         
-        if let firstResult = results.first {
-            // Apply impulse on the tapped location
-            if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
-                let position = SIMD3<Float>(firstResult.worldTransform.columns.3.x, firstResult.worldTransform.columns.3.y, firstResult.worldTransform.columns.3.z)
-                print("press applied")
-                //                    skateboardWithPhysics.physicsBody?.massProperties.centerOfMass.position = position
-                skateboardWithPhysics.addForce(kickDirection * catchStrength, at: position, relativeTo: skateboardWithPhysics)
-            }
+        let position = SIMD3<Float>(firstResult.worldTransform.columns.3.x, firstResult.worldTransform.columns.3.y, firstResult.worldTransform.columns.3.z)
+
+        switch sender.state {
+        case .began:
+//            print("long press began")
+//            // Apply force
+//            print("press applied")
+//
+//            print("location.x: \(location.x)")
+//            print("parent.arView.bounds.width: \(parent.arView.bounds.width)")
+//            print("(Float(location.x / parent.arView.bounds.width) - 0.5): \((Float(location.x / parent.arView.bounds.width) - 0.5))")
+//            print("deckSize.x: \(deckSize.z)")
+//
+//
+//            print("location.y: \(location.y)")
+//            print("parent.arView.bounds.height: \(parent.arView.bounds.height)")
+//            print("deckSize.z: \(deckSize.x)")
+//            print("relativeX: \(relativeX)")
+//            print("Float(location.y / parent.arView.bounds.height): \(Float(location.y / parent.arView.bounds.height))")
+//            print("(Float(location.y / parent.arView.bounds.height) - 0.5): \((Float(location.y / parent.arView.bounds.height) - 0.5))")
+//            print("firstResult.worldTransform.columns.3.x: \(firstResult.worldTransform.columns.3.x)")
+//            print("firstResult.worldTransform.columns.3.z: \(firstResult.worldTransform.columns.3.z)")
+//
+//
+//
+//
+//
+//            print("catchStrength: \(catchStrength)")
+//            print("catchDirection: \(catchDirection)")
+//            print("kickDirection * normalizedKickStrength: \(catchDirection * catchStrength)")
+//            print("worldPositionOnSkateboard: \(worldPositionOnSkateboard) compared to: (\(relativeX), 0.02, \(relativeZ)")
+            
+            skateboardWithPhysics.addForce(catchDirection * catchStrength, at: worldPositionOnSkateboard, relativeTo: skateboardWithPhysics)
+        case .ended, .cancelled, .failed:
+            print("long press ended")
+            // Stop applying force
+            // Assuming there's a way to stop applying force, you would call it here.
+            // The specifics would depend on the physics engine you're using.
+            // For example, you might set the force to zero, or deactivate a continuous force.
+        default:
+            break
         }
     }
+
     
 //    @objc func handlePinch(_ sender: UIPinchGestureRecognizer) {
 //        guard sender.state == .changed || sender.state == .ended else { return }
@@ -149,6 +189,12 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
         let location = sender.location(in: parent.arView)
         let results = parent.arView.raycast(from: location, allowing: .estimatedPlane, alignment: .any)
         
+        let relativeZ = (Float(location.x / parent.arView.bounds.width) - 0.5) * deckSize.z
+        //due to the reason the height of the screen represents the height of the skateboard and the width the width
+        let relativeX = (Float(location.y / parent.arView.bounds.height) - 0.5) * deckSize.x
+        let worldPositionOnSkateboard = SIMD3<Float>(relativeX, 0.02, relativeZ)//SIMD3<Float>(relativeX, 0.02, relativeZ)
+
+        
         if let firstResult = results.first {
             
             let position = SIMD3<Float>(firstResult.worldTransform.columns.3.x, firstResult.worldTransform.columns.3.y, firstResult.worldTransform.columns.3.z)
@@ -190,15 +236,11 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
                 
                 // Normalize kickStrength by distance
                 let normalizedKickStrength = kickStrength / max(distanceToSkateboard, 1)  * (parent.skateboardEntity?.scale.x ?? 1.0) // Avoid division by zero
-                print("position: \(adjustedPosition)")
-                print("kickStrength: \(kickStrength)")
-                print("kickDirection: \(kickDirection)")
-                print("normalizedKickStrength: \(normalizedKickStrength)")
-                print("kickDirection * normalizedKickStrength: \(kickDirection * normalizedKickStrength)")
+             
                 
                 
                 
-                closestSkateboard.applyImpulse(kickDirection * normalizedKickStrength, at: adjustedPosition, relativeTo: nil)
+                closestSkateboard.applyImpulse(kickDirection * normalizedKickStrength, at: worldPositionOnSkateboard, relativeTo: closestSkateboard)
             }
         }
     }
@@ -206,6 +248,7 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
     // MARK: Helper Methods
 
     
+    let deckSize = SIMD3<Float>(0.8011, 0.0416, 0.1921)
     let inMotionChanger: SIMD3<Float> = SIMD3<Float>(0.0, 1.0, -1.0)
     var notChoosen = true
     var initialSkateboardTransform: Transform?
@@ -232,23 +275,33 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
         }
     }
     
+    var catchDirection: SIMD3<Float> {
+        // Check if the skateboard is in motion
+//        if isSkateboardInMotion {
+//            return [0.2, -1.0, 0.0]
+//        } else {
+//            return [0.0, -1.0, 0.0]
+//        }
+        return [0.0, -1.0, 0.0]
+    }
+    
     var kickStrength: Float {
         // Check if the skateboard is in motion
         if isSkateboardInMotion {
             print("is in motion")
             // If the skateboard is in motion, return a random value between 0.6 and 0.8
-            return Float.random(in: 0.18...0.28) * (parent.skateboardEntity?.scale.x ?? 1.0)
+            return Float.random(in: 0.48...0.58)// * (parent.skateboardEntity?.scale.x ?? 1.0)
         } else {
             print("static")
             // If the skateboard is not in motion, return a random value between 1.8 and 2.2
-            return Float.random(in: 1.8...2.2) * (parent.skateboardEntity?.scale.x ?? 1.0)
+            return Float.random(in: 10.8...12.2)// * (parent.skateboardEntity?.scale.x ?? 1.0)
             
         }
     }
     
     var catchStrength: Float {
         // Check if the skateboard is in motion
-        return Float.random(in: 420.0...440.0) * (parent.skateboardEntity?.scale.x ?? 1.0)
+        return Float.random(in: 420.0...440.0)// * (parent.skateboardEntity?.scale.x ?? 1.0)
     }
     
     
