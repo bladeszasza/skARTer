@@ -27,6 +27,7 @@
 		405804562A1E384A00B6BE8C /* skARTerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405804552A1E384A00B6BE8C /* skARTerUITests.swift */; };
 		405804582A1E384A00B6BE8C /* skARTerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405804572A1E384A00B6BE8C /* skARTerUITestsLaunchTests.swift */; };
 		405804652A1E3B1800B6BE8C /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405804642A1E3B1800B6BE8C /* ARViewContainer.swift */; };
+		4076FC202A4433DE003E9070 /* ARUIGestureRecognizerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4076FC1F2A4433DE003E9070 /* ARUIGestureRecognizerDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		405804552A1E384A00B6BE8C /* skARTerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = skARTerUITests.swift; sourceTree = "<group>"; };
 		405804572A1E384A00B6BE8C /* skARTerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = skARTerUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		405804642A1E3B1800B6BE8C /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
+		4076FC1F2A4433DE003E9070 /* ARUIGestureRecognizerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARUIGestureRecognizerDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,11 +102,11 @@
 		4025AD762A28B00E0038BF52 /* AARView */ = {
 			isa = PBXGroup;
 			children = (
+				4076FC1E2A4433A1003E9070 /* Coordinator */,
 				4025AD882A39DE350038BF52 /* AREntity */,
 				405804642A1E3B1800B6BE8C /* ARViewContainer.swift */,
 				4025AD772A28B0230038BF52 /* ARViewExtensions.swift */,
 				4025AD792A28B0750038BF52 /* ARViewPhysics.swift */,
-				4025AD7B2A28B0D80038BF52 /* ARViewCoordinator.swift */,
 			);
 			path = AARView;
 			sourceTree = "<group>";
@@ -204,6 +206,15 @@
 				405804572A1E384A00B6BE8C /* skARTerUITestsLaunchTests.swift */,
 			);
 			path = skARTerUITests;
+			sourceTree = "<group>";
+		};
+		4076FC1E2A4433A1003E9070 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				4025AD7B2A28B0D80038BF52 /* ARViewCoordinator.swift */,
+				4076FC1F2A4433DE003E9070 /* ARUIGestureRecognizerDelegate.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -345,6 +356,7 @@
 				405804392A1E384900B6BE8C /* AppDelegate.swift in Sources */,
 				405804652A1E3B1800B6BE8C /* ARViewContainer.swift in Sources */,
 				4025AD752A2774830038BF52 /* RecordingState.swift in Sources */,
+				4076FC202A4433DE003E9070 /* ARUIGestureRecognizerDelegate.swift in Sources */,
 				4025AD822A2C51B50038BF52 /* RealityViewController.swift in Sources */,
 				4025AD7C2A28B0D80038BF52 /* ARViewCoordinator.swift in Sources */,
 				4058043D2A1E384900B6BE8C /* Experience.rcproject in Sources */,
