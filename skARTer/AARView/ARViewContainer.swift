@@ -26,7 +26,6 @@ struct ARViewContainer: UIViewRepresentable {
     var eighthEntity: Entity? // Used to store the skateboard entity
     
     @State private var impulseStartDate: Date? = nil // Used to store the start date of impulse
-    @State var userDirection: SIMD3<Float> = SIMD3<Float>(0.0, -1.1, 0.7) // Direction of the user
     
     let forwardDirectionForSkateboard: SIMD3<Float> = SIMD3<Float>(1.0, 0.0, 0.0)
     var pushStrength: Float = 5.8 // adjust this to achieve the desired push strength
@@ -42,7 +41,7 @@ struct ARViewContainer: UIViewRepresentable {
     //    }
     
     func makeUIView(context: Context) -> ARView {
-        ARViewCoordinator.setupARView(arView: arView, context: context, skateboardEntity: $skateboardEntity, userDirection: $userDirection)
+        ARViewCoordinator.setupARView(arView: arView, context: context, skateboardEntity: $skateboardEntity)
         return arView
     }
     

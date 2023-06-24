@@ -81,7 +81,7 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         // The session got interrupted (probably due to navigating back), so stop the recording
     }
     
-    static func setupARView(arView: ARView, context: UIViewRepresentableContext<ARViewContainer>, skateboardEntity: Binding<Entity?>, userDirection: Binding<SIMD3<Float>>) {
+    static func setupARView(arView: ARView, context: UIViewRepresentableContext<ARViewContainer>, skateboardEntity: Binding<Entity?>) {
         
         print("setupARView")
         
