@@ -11,7 +11,6 @@ import ARKit
 import SwiftUI
 
 
-
 class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
     
     var parent: ARViewContainer
@@ -61,15 +60,27 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
     //        }
     //    }
     
-    
+    // helps to apply the force for a period of 2-3 seconds instead of a bigger velocity push, to prevent more random board action
+    var forceDuration: TimeInterval = 2.0 // Duration to apply the force
+    var forceTimer: Timer? // Timer to control the force application duration
+
     
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer) {
-        if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
-            // Adjust the force and direction values as necessary
-            let force = SIMD3<Float>(800.0 * (parent.skateboardEntity?.scale.x ?? 1.0), 0.0, 0.0)
-            skateboardWithPhysics.addForce(force, at:[0.11, 0.02, 0.0], relativeTo: skateboardWithPhysics)
-            //            skateboardWithPhysics.applyImpulse(force, at:[0.0, 0.0, 0.0], relativeTo: skateboardWithPhysics)
-        }
+        // Stop the previous force timer if it exists
+        forceTimer?.invalidate()
+        
+        applySwipe()
+        
+        // Start a new repeating force timer with a specified time interval
+           forceTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] timer in
+               // Apply force periodically until the force duration is reached
+               self?.applySwipe()
+               
+               // Check if the force duration has been reached
+               if timer.fireDate.timeIntervalSinceNow >= self?.forceDuration ?? 0 {
+                   timer.invalidate() // Stop the repeating timer
+               }
+           }
     }
     
     
@@ -145,32 +156,7 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
         // Perform hit test
         
         let worldPositionOnSkateboard = getWorldPositionOnSkateboard(sender: sender)
-        
-        
-        
-        
-        
-        // Define all your skateboards here
-        let skateboards = [parent.skateboardEntity, parent.firstEntity, parent.secondEntity, parent.thirdEntity, parent.fourthEntity, parent.fifthEntity, parent.sixthEntity, parent.seventhEntity]
-        
-        // Find the closest skateboard
-        var closestSkateboard = parent.skateboardEntity as? HasPhysics
-        //                var minDistance: Float = Float.infinity
-        //                for skateboard in skateboards {
-        //                    if let skateboardWithPhysics = skateboard as? HasPhysics {
-        //                        let skateboardPosition = skateboardWithPhysics.transform.translation
-        //                        let distance = simd_distance(position, skateboardPosition)
-        //                        if distance < minDistance {
-        //                            minDistance = distance
-        //                            closestSkateboard = skateboardWithPhysics
-        //                        }
-        //                    }
-        //                }
-        
-        
-        
-        
-        if let closestSkateboard = closestSkateboard {
+        if let closestSkateboard = parent.skateboardEntity as? HasPhysics {
             //                print("holdin on to the board  \(closestSkateboard)")
             if(notChoosen){
                 applyPhysicsAndCollision(to: closestSkateboard)

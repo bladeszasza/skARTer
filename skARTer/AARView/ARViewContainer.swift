@@ -16,14 +16,8 @@ struct ARViewContainer: UIViewRepresentable {
     var initialSkateboardTransform: Transform? // Store the initial transform of your skateboard
 
     @Binding var skateboardEntity: Entity? // Used to store the skateboard entity
-    var firstEntity: Entity? // Used to store the skateboard entity
-    var secondEntity: Entity? // Used to store the skateboard entity
-    var thirdEntity: Entity? // Used to store the skateboard entity
-    var fourthEntity: Entity? // Used to store the skateboard entity
-    var fifthEntity: Entity? // Used to store the skateboard entity
-    var sixthEntity: Entity? // Used to store the skateboard entity
-    var seventhEntity: Entity? // Used to store the skateboard entity
-    var eighthEntity: Entity? // Used to store the skateboard entity
+    @Binding var user: User // include the User object
+
     
     @State private var impulseStartDate: Date? = nil // Used to store the start date of impulse
     
@@ -41,7 +35,7 @@ struct ARViewContainer: UIViewRepresentable {
     //    }
     
     func makeUIView(context: Context) -> ARView {
-        ARViewCoordinator.setupARView(arView: arView, context: context, skateboardEntity: $skateboardEntity)
+        ARViewCoordinator.setupARView(arView: arView, context: context, skateboardEntity: $skateboardEntity, user: $user)
         return arView
     }
     

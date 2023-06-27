@@ -18,38 +18,31 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
     init(_ parent: ARViewContainer) {
         self.parent = parent
         self.gestureDelegate = ARUIGestureRecognizerDelegate(parent)
+        self.wheels = []
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        if let skateboard = parent.skateboardEntity,
-           let wheelEntity1 = skateboard.findEntity(named: "wheel_01_low") as? ModelEntity,
-           let wheelEntity2 = skateboard.findEntity(named: "wheel_02_low") as? ModelEntity,
-           let wheelEntity3 = skateboard.findEntity(named: "wheel_03_low") as? ModelEntity,
-           let wheelEntity4 = skateboard.findEntity(named: "wheel_04_low") as? ModelEntity {
-            
-            // Add all wheel entities into an array
-            let wheels = [wheelEntity1, wheelEntity2, wheelEntity3, wheelEntity4]
-            
-            // Spin the wheels if the skateboard is moving
-            spin(wheels: wheels)
-        }
+        // Spin the wheels if the skateboard is moving
+        spin(wheels: wheels)
     }
     
-//    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-//        if let meshAnchor = anchor as? ARMeshAnchor {
-//            // The transformation matrix for a mesh anchor includes translation
-//            let transform = meshAnchor.transform
-//            let anchorPosition = SIMD3<Float>(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
-//
-//            // You could keep track of the lowest y value here
-//            if anchorPosition.y < lowestY {
-//                lowestY = anchorPosition.y
-//                // Update the position of your horizontal plane here
-//            }
-//        }
-//    }
+    //    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+    //        if let meshAnchor = anchor as? ARMeshAnchor {
+    //            // The transformation matrix for a mesh anchor includes translation
+    //            let transform = meshAnchor.transform
+    //            let anchorPosition = SIMD3<Float>(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
+    //
+    //            // You could keep track of the lowest y value here
+    //            if anchorPosition.y < lowestY {
+    //                lowestY = anchorPosition.y
+    //                // Update the position of your horizontal plane here
+    //            }
+    //        }
+    //    }
     
-
+    
+    
+    
     
     
     func spin(wheels: [ModelEntity]){
@@ -81,12 +74,12 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         // The session got interrupted (probably due to navigating back), so stop the recording
     }
     
-    static func setupARView(arView: ARView, context: UIViewRepresentableContext<ARViewContainer>, skateboardEntity: Binding<Entity?>) {
+    static func setupARView(arView: ARView, context: UIViewRepresentableContext<ARViewContainer>, skateboardEntity: Binding<Entity?>, user: Binding<User>) {
         
         print("setupARView")
         
         //                        arView.debugOptions = .showPhysics
-//                arView.debugOptions.insert(.showSceneUnderstanding)
+        //                arView.debugOptions.insert(.showSceneUnderstanding)
         
         // Set up the ARView's session configuration for LiDAR scanning
         let config = ARWorldTrackingConfiguration()
@@ -114,50 +107,42 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         
         
         do {
-            let skateAnchor = try Experience.loadSkateboard()
-            if let skateboard = skateAnchor.skateboard {
-                context.coordinator.parent.eighthEntity = skateboard
-                context.coordinator.parent.updateDirection(arView: arView)
+            switch user.wrappedValue.level {
+            case 0 :
+                let skateAnchor = try Experience.loadSkateboard()
+                if let skateboard = skateAnchor.centerBoard {
+                    skateboardEntity.wrappedValue = skateboard
+                    
+                    arView.scene.anchors.append(skateAnchor)
+                }
+            case 1 :
+                let skateAnchor = try Experience.loadLevel1()
+                if let skateboard = skateAnchor.centerBoard {
+                    skateboardEntity.wrappedValue = skateboard
+                    
+                    arView.scene.anchors.append(skateAnchor)
+                }
+            case 2 :
+                let skateAnchor = try Experience.loadLevel2()
+                if let skateboard = skateAnchor.centerBoard {
+                    skateboardEntity.wrappedValue = skateboard
+                    
+                    arView.scene.anchors.append(skateAnchor)
+                }
+            default :
+                let skateAnchor = try Experience.loadSkateboard()
+                if let skateboard = skateAnchor.centerBoard {
+                    skateboardEntity.wrappedValue = skateboard
+                    
+                    arView.scene.anchors.append(skateAnchor)
+                }
             }
             
-            if let skateboard = skateAnchor.firstBoard {
-                context.coordinator.parent.firstEntity = skateboard
-            }
-            
-            if let skateboard = skateAnchor.secondBoard {
-                context.coordinator.parent.secondEntity = skateboard
-            }
-            
-            if let skateboard = skateAnchor.thirdBoard {
-                context.coordinator.parent.thirdEntity = skateboard
-            }
-            
-            if let skateboard = skateAnchor.fourthBoarder {
-                context.coordinator.parent.fourthEntity = skateboard
-            }
-            
-            if let skateboard = skateAnchor.fifthBoard {
-                context.coordinator.parent.fifthEntity = skateboard
-            }
-            
-            
-            if let skateboard = skateAnchor.sixthBoard {
-                context.coordinator.parent.sixthEntity = skateboard
-            }
-            
-            
-            if let skateboard = skateAnchor.seventhBoard {
-                context.coordinator.parent.seventhEntity = skateboard
-            }
-            
-            if let skateboard = skateAnchor.centerBoard {
-                skateboardEntity.wrappedValue = skateboard
-            }
-            
-            arView.scene.anchors.append(skateAnchor)
         } catch {
             print("Failed to load the Skateboard scene from Experience Reality File: \(error)")
         }
+        // set up wheels
+        context.coordinator.setUpWheels()
         print("set up tap ")
         // Add tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: context.coordinator.gestureDelegate, action: #selector(context.coordinator.gestureDelegate.handleTap(_:)))
@@ -168,7 +153,7 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         // Add tap gesture recognizer
         let longPressGesture = UILongPressGestureRecognizer(target: context.coordinator.gestureDelegate, action: #selector(context.coordinator.gestureDelegate.handleLongPress(_:)))
         longPressGesture.delegate = context.coordinator.gestureDelegate
-//        longPressGesture.num
+        //        longPressGesture.num
         arView.addGestureRecognizer(longPressGesture)
         
         // Add swipe gesture recognizer
@@ -194,10 +179,10 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         rotationGesture.delegate = context.coordinator.gestureDelegate
         arView.addGestureRecognizer(rotationGesture)
         
-//        // Add double tap gesture recognizer
-//        let doubleTapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(handleDoubleTap(_:)))
-//        doubleTapGesture.numberOfTapsRequired = 2
-//        arView.addGestureRecognizer(doubleTapGesture)
+        //        // Add double tap gesture recognizer
+        //        let doubleTapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(handleDoubleTap(_:)))
+        //        doubleTapGesture.numberOfTapsRequired = 2
+        //        arView.addGestureRecognizer(doubleTapGesture)
         
         //        // Add pinch gesture recognizer
         //        let pinchGesture = UIPinchGestureRecognizer(target: context.coordinator, action: #selector(handlePinch(_:)))
@@ -207,6 +192,20 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
     }
     
     // ...rest of your methods, copied over from Coordinator
+    
+    var wheels:[ModelEntity]
+    func setUpWheels(){
+        if let skateboard = parent.skateboardEntity,
+           let wheelEntity1 = skateboard.findEntity(named: "wheel_01_low") as? ModelEntity,
+           let wheelEntity2 = skateboard.findEntity(named: "wheel_02_low") as? ModelEntity,
+           let wheelEntity3 = skateboard.findEntity(named: "wheel_03_low") as? ModelEntity,
+           let wheelEntity4 = skateboard.findEntity(named: "wheel_04_low") as? ModelEntity {
+            
+            // Add all wheel entities into an array
+            wheels = [wheelEntity1, wheelEntity2, wheelEntity3, wheelEntity4]
+            
+        }
+    }
     
     //... all the methods in the Coordinator class
 }

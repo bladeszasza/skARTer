@@ -14,13 +14,14 @@ enum Screen {
 
 struct ContentView: View {
     @ObservedObject var recordingState: RecordingState
+    @State private var user: User = User(level: 2, name: "Csabesz")
     @State private var skateboardEntity: Entity? = nil
     @State private var currentScreen: Screen? = nil
     
     var body: some View {
         NavigationView {
             VStack {
-                Text("skARTer")
+                Text("Shred the world! ")
                     .font(.largeTitle)
                     .padding()
                 
@@ -28,7 +29,7 @@ struct ContentView: View {
                     self.recordingState.start() // Start the recording when the button is clicked
                     self.currentScreen = .arView // Update the currentScreen
                 }) {
-                    Text("Shred the world!")
+                    Text("skARTer - Level 0")
                         .font(.title)
                         .padding()
                         .background(Color.purple)
@@ -37,7 +38,7 @@ struct ContentView: View {
                 }
                 .background( // Embed your button inside a NavigationLink, which will be invisible
                     NavigationLink(tag: .arView, selection: $currentScreen, destination: {
-                        ARViewContainer(skateboardEntity: $skateboardEntity)
+                        ARViewContainer(skateboardEntity: $skateboardEntity, user: $user)
                     }, label: { EmptyView() })
                 )
                 

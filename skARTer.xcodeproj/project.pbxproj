@@ -28,6 +28,8 @@
 		405804582A1E384A00B6BE8C /* skARTerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405804572A1E384A00B6BE8C /* skARTerUITestsLaunchTests.swift */; };
 		405804652A1E3B1800B6BE8C /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405804642A1E3B1800B6BE8C /* ARViewContainer.swift */; };
 		4076FC202A4433DE003E9070 /* ARUIGestureRecognizerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4076FC1F2A4433DE003E9070 /* ARUIGestureRecognizerDelegate.swift */; };
+		4093121C2A487885002EAA80 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093121B2A487885002EAA80 /* User.swift */; };
+		4093121E2A4ACC9A002EAA80 /* ARSwipeGestureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4093121D2A4ACC9A002EAA80 /* ARSwipeGestureDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,8 @@
 		405804572A1E384A00B6BE8C /* skARTerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = skARTerUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		405804642A1E3B1800B6BE8C /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
 		4076FC1F2A4433DE003E9070 /* ARUIGestureRecognizerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARUIGestureRecognizerDelegate.swift; sourceTree = "<group>"; };
+		4093121B2A487885002EAA80 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		4093121D2A4ACC9A002EAA80 /* ARSwipeGestureDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARSwipeGestureDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +177,7 @@
 				4025AD762A28B00E0038BF52 /* AARView */,
 				405804382A1E384900B6BE8C /* AppDelegate.swift */,
 				4058043A2A1E384900B6BE8C /* ContentView.swift */,
+				4093121A2A487877002EAA80 /* User */,
 				4025AD702A276B710038BF52 /* ReplayAssistant.swift */,
 				4025AD742A2774830038BF52 /* RecordingState.swift */,
 				4025AD722A27712D0038BF52 /* RootViewController.swift */,
@@ -213,8 +218,17 @@
 			children = (
 				4025AD7B2A28B0D80038BF52 /* ARViewCoordinator.swift */,
 				4076FC1F2A4433DE003E9070 /* ARUIGestureRecognizerDelegate.swift */,
+				4093121D2A4ACC9A002EAA80 /* ARSwipeGestureDelegate.swift */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		4093121A2A487877002EAA80 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				4093121B2A487885002EAA80 /* User.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -354,6 +368,8 @@
 				4025AD8A2A39DE610038BF52 /* SkateEntity.swift in Sources */,
 				4025AD852A2C528C0038BF52 /* RealityKitView.swift in Sources */,
 				405804392A1E384900B6BE8C /* AppDelegate.swift in Sources */,
+				4093121C2A487885002EAA80 /* User.swift in Sources */,
+				4093121E2A4ACC9A002EAA80 /* ARSwipeGestureDelegate.swift in Sources */,
 				405804652A1E3B1800B6BE8C /* ARViewContainer.swift in Sources */,
 				4025AD752A2774830038BF52 /* RecordingState.swift in Sources */,
 				4076FC202A4433DE003E9070 /* ARUIGestureRecognizerDelegate.swift in Sources */,

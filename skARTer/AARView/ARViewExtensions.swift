@@ -9,10 +9,10 @@ import RealityKit
 
 extension ARViewContainer {
     func updateDirection(arView: ARView) {
-        if let transform = arView.session.currentFrame?.camera.transform {
-//            let direction = SIMD3<Float>(-transform.columns.3.x, -transform.columns.3.y, -transform.columns.3.z)
-
-        }
+//        if let transform = arView.session.currentFrame?.camera.transform {
+////            let direction = SIMD3<Float>(-transform.columns.3.x, -transform.columns.3.y, -transform.columns.3.z)
+//
+//        }
     }
 }
 

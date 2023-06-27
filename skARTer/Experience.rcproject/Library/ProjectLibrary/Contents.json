@@ -1,62 +1,17 @@
 [
   {
-    "libraryIdentifier" : "f5cac6057eb15f98f6d337be7b669d43",
+    "libraryIdentifier" : "edf7728ed84f5e6ccaff19de160c562f",
     "format" : "model",
-    "displayName" : "skate.usdz"
+    "displayName" : "0.usdz"
   },
   {
-    "libraryIdentifier" : "f653aed6d661aa92c89a8acf9dadcae8",
+    "libraryIdentifier" : "17aaa0cd43cde55dddd9c0b3e1aca782",
     "format" : "model",
-    "displayName" : "01.usdz"
+    "displayName" : "complete_s1_m1_blendered.usdz"
   },
   {
-    "libraryIdentifier" : "414f283740d00e340ae3dc505dc9972e",
+    "libraryIdentifier" : "1f5596b0250b2559f69712463a3e9606",
     "format" : "model",
-    "displayName" : "02.usdz"
-  },
-  {
-    "libraryIdentifier" : "fdd7dd27b174bc9f98a9d1cd297656fe",
-    "format" : "model",
-    "displayName" : "03.usdz"
-  },
-  {
-    "libraryIdentifier" : "be5b738469e704c9f717d1691f110127",
-    "format" : "model",
-    "displayName" : "04.usdz"
-  },
-  {
-    "libraryIdentifier" : "4e06c5c85109e5b881f56e0da59978e8",
-    "format" : "model",
-    "displayName" : "05.usdz"
-  },
-  {
-    "libraryIdentifier" : "f1545f950dcf3477ae42483c80a00958",
-    "format" : "model",
-    "displayName" : "06.usdz"
-  },
-  {
-    "libraryIdentifier" : "b8af6682aeedc6e688ea0587f5c92bc6",
-    "format" : "model",
-    "displayName" : "07.usdz"
-  },
-  {
-    "libraryIdentifier" : "f08a32395d25893c8b43105cfdd6dedf",
-    "format" : "model",
-    "displayName" : "08.usdz"
-  },
-  {
-    "libraryIdentifier" : "e7f2388e67d988a399625426e589aafd",
-    "format" : "model",
-    "displayName" : "test.usdz"
-  },
-  {
-    "libraryIdentifier" : "547ba91d1a48c27385f74397fce05097",
-    "format" : "model",
-    "displayName" : "09.usdz"
-  },
-  {
-    "libraryIdentifier" : "70cbd34b3baf85aed56cfee794c5e8fa",
-    "format" : "model",
-    "displayName" : "08.usdz"
+    "displayName" : "complete_s1_m2_blendered.usdz"
   }
 ]
