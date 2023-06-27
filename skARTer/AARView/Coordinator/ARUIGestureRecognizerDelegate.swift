@@ -72,14 +72,10 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
         applySwipe()
         
         // Start a new repeating force timer with a specified time interval
-           forceTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] timer in
+           forceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] timer in
                // Apply force periodically until the force duration is reached
                self?.applySwipe()
-               
-               // Check if the force duration has been reached
-               if timer.fireDate.timeIntervalSinceNow >= self?.forceDuration ?? 0 {
-                   timer.invalidate() // Stop the repeating timer
-               }
+               self?.forceTimer?.invalidate()
            }
     }
     
@@ -126,8 +122,7 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
     @objc func handleRotation(_ sender: UIRotationGestureRecognizer) {
         guard sender.state == .changed || sender.state == .ended else { return }
         
-        if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {
-            let rotationChange = Float(sender.rotation)
+        if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics {            let rotationChange = Float(sender.rotation)
             // Create a rotation quaternion from the rotation change
             let rotationChangeQuaternion = simd_quatf(angle: rotationChange, axis: SIMD3<Float>(0, -1, 0))
             // Multiply the current rotation with the rotation change
@@ -138,17 +133,16 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
         }
     }
     
-    //    @objc func handleDoubleTap(_ sender: UITapGestureRecognizer) {
-    //        // Handle double tap
-    //        print("Double tapped!")
-    //         Your double tap logic here
-    //
-    //        if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics, let initTransform = initialSkateboardTransform {
-    //
-    //            print("initial transform ation applied")
-    //            skateboardWithPhysics.transform = initTransform
-    //        }
-    //    }
+//        @objc func handleDoubleTap(_ sender: UITapGestureRecognizer) {
+//            // Handle double tap
+//            print("Double tapped!")
+//
+//            if let skateboardWithPhysics = parent.skateboardEntity as? HasPhysics{
+//
+//                print("initial transform ation applied")
+//                skateboardWithPhysics.reset()
+//            }
+//        }
     
     
     

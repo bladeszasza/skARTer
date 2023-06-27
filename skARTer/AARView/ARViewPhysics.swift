@@ -16,8 +16,8 @@ func applyPhysicsAndCollision(to entity: HasPhysics) {
     let deckTranslation = SIMD3<Float>(0.0, 0.1916/2, 0.0)
     let deckShape = ShapeResource.generateBox(size: deckSize).offsetBy(translation: deckTranslation)
     let deckMass: Float = 2.0
-    let deckFriction: Float = 0.6
-    let deckRestitution: Float = 0.2
+    let deckFriction: Float = 0.4
+    let deckRestitution: Float = 0.12
 
     let wheelRadius: Float = 0.028
     let wheelFrontRightTranslation = SIMD3<Float>(0.2055, 0.023, 0.06845)
