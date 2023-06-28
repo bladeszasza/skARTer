@@ -42,6 +42,7 @@ struct ContentView: View {
                     }, label: { EmptyView() })
                 )
                 
+               
                 Button(action: {
                     self.recordingState.stop() // Stop the recording when the button is clicked
                 }) {
