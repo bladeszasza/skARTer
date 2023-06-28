@@ -54,12 +54,10 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         if let meshAnchor = anchor as? ARMeshAnchor {
             // The transformation matrix for a mesh anchor includes translation
-            let transform = meshAnchor.transform
-            let anchorPosition = SIMD3<Float>(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
-            
+            let translation = meshAnchor.transform.columns.3
             // You could keep track of the lowest y value here
-            if anchorPosition.y < lowestY {
-                lowestY = anchorPosition.y
+            if translation.y < lowestY {
+                lowestY = translation.y
                 // Update the position of your horizontal plane here
                 if let planeEntity = planeEntity {
                     var newPosition = planeEntity.transform.translation
