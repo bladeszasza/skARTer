@@ -47,9 +47,12 @@ func applyPhysicsAndCollision(to entity: HasPhysics) {
     entity.physicsBody = PhysicsBodyComponent(shapes: shapes, mass: deckMass + 4 * wheelMass + 2 * truckMass, material: PhysicsMaterialResource.generate(friction : deckFriction, restitution : deckRestitution))
     entity.physicsBody?.massProperties.centerOfMass.position = [0.00, 0.07, 0.0]
     
-    entity.collision?.filter.mask = [.sceneUnderstanding]
+//    entity.collision?.filter.mask = [.sceneUnderstanding]
     
 }
+
+
+
 
 
 

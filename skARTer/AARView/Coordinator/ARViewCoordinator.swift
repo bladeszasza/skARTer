@@ -30,14 +30,15 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
     var planeEntity: ModelEntity?
     
     func setupHorizontalPlaneIn(arView: ARView) {
+    
         // Create a plane mesh with a size of 10 meters by 10 meters
         let planeMesh = MeshResource.generatePlane(width: 10.0, depth: 10.0)
-        let planeMaterial = SimpleMaterial(color: UIColor.clear, isMetallic: false)
+        let planeMaterial = SimpleMaterial(color: UIColor.red, isMetallic: false)
         let planeModel = ModelEntity(mesh: planeMesh, materials: [planeMaterial])
         
         // Create an anchor entity to hold the plane model
         let anchorEntity = AnchorEntity(plane: .horizontal)
-        
+        anchorEntity.generateCollisionShapes(recursive: true)
         // Position the anchor entity at 0, lowestY, 0
         anchorEntity.position = [0, lowestY, 0]
         
@@ -51,25 +52,28 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         planeEntity = planeModel
     }
     
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        if let meshAnchor = anchor as? ARMeshAnchor {
-            // The transformation matrix for a mesh anchor includes translation
-            let translation = meshAnchor.transform.columns.3
-            // You could keep track of the lowest y value here
-            if translation.y < lowestY {
-                lowestY = translation.y
-                // Update the position of your horizontal plane here
-                if let planeEntity = planeEntity {
-                    var newPosition = planeEntity.transform.translation
-                    newPosition.y = lowestY
-                    planeEntity.transform.translation = newPosition
+    
+    
+    func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
+        print("didAdd")
+        for anchor in anchors {
+            if let meshAnchor = anchor as? ARMeshAnchor {
+                // The transformation matrix for a mesh anchor includes translation
+                let translation = meshAnchor.transform.columns.3
+                // You could keep track of the lowest y value here
+                print("translation.y < lowestY ==  \(translation.y) < \(lowestY)")
+                if translation.y < lowestY {
+                    lowestY = translation.y
+                    // Update the position of your horizontal plane here
+                    if let planeEntity = planeEntity {
+                        var newPosition = planeEntity.position
+                        newPosition.y = lowestY + 1
+                        planeEntity.position = newPosition
+                    }
                 }
             }
         }
     }
-    
-    
-    
     
     
     
@@ -107,7 +111,7 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         print("setupARView")
         
         //                        arView.debugOptions = .showPhysics
-                        arView.debugOptions.insert(.showSceneUnderstanding)
+//                        arView.debugOptions.insert(.showSceneUnderstanding)
         
         // Set up the ARView's session configuration for LiDAR scanning
         let config = ARWorldTrackingConfiguration()
@@ -156,6 +160,20 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
                     
                     arView.scene.anchors.append(skateAnchor)
                 }
+            case 3 :
+                let skateAnchor = try Experience.loadLevel12()
+                if let skateboard = skateAnchor.centerBoard {
+                    skateboardEntity.wrappedValue = skateboard
+                    
+                    arView.scene.anchors.append(skateAnchor)
+                }
+            case 4 :
+                let skateAnchor = try Experience.loadLevel19()
+                if let skateboard = skateAnchor.centerBoard {
+                    skateboardEntity.wrappedValue = skateboard
+                    
+                    arView.scene.anchors.append(skateAnchor)
+                }
             default :
                 let skateAnchor = try Experience.loadSkateboard()
                 if let skateboard = skateAnchor.centerBoard {
@@ -172,7 +190,7 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         context.coordinator.setUpWheels()
         
         //set horizontal plane
-        
+//        context.coordinator.setupHorizontalPlaneIn(arView:arView)
         
         print("set up tap ")
         // Add tap gesture recognizer
@@ -226,15 +244,17 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
     
     var wheels:[ModelEntity]
     func setUpWheels(){
-        if let skateboard = parent.skateboardEntity,
-           let wheelEntity1 = skateboard.findEntity(named: "wheel_01_low") as? ModelEntity,
-           let wheelEntity2 = skateboard.findEntity(named: "wheel_02_low") as? ModelEntity,
-           let wheelEntity3 = skateboard.findEntity(named: "wheel_03_low") as? ModelEntity,
-           let wheelEntity4 = skateboard.findEntity(named: "wheel_04_low") as? ModelEntity {
-            
-            // Add all wheel entities into an array
-            wheels = [wheelEntity1, wheelEntity2, wheelEntity3, wheelEntity4]
-            
+        DispatchQueue.main.async { [self] in
+            if let skateboard = parent.skateboardEntity,
+               let wheelEntity1 = skateboard.findEntity(named: "wheel_01_low") as? ModelEntity,
+               let wheelEntity2 = skateboard.findEntity(named: "wheel_02_low") as? ModelEntity,
+               let wheelEntity3 = skateboard.findEntity(named: "wheel_03_low") as? ModelEntity,
+               let wheelEntity4 = skateboard.findEntity(named: "wheel_04_low") as? ModelEntity {
+                
+                // Add all wheel entities into an array
+                wheels = [wheelEntity1, wheelEntity2, wheelEntity3, wheelEntity4]
+                
+            }
         }
     }
     

@@ -14,7 +14,7 @@ enum Screen {
 
 struct ContentView: View {
     @ObservedObject var recordingState: RecordingState
-    @State private var user: User = User(level: 2, name: "Csabesz")
+    @State private var user: User = User(level: 4, name: "Csabesz")
     @State private var skateboardEntity: Entity? = nil
     @State private var currentScreen: Screen? = nil
     
