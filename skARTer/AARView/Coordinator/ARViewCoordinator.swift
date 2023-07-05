@@ -202,7 +202,7 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         // Add tap gesture recognizer
         let longPressGesture = UILongPressGestureRecognizer(target: context.coordinator.gestureDelegate, action: #selector(context.coordinator.gestureDelegate.handleLongPress(_:)))
         longPressGesture.delegate = context.coordinator.gestureDelegate
-        //        longPressGesture.num
+        longPressGesture.numberOfTouchesRequired = 2
         arView.addGestureRecognizer(longPressGesture)
         
         // Add swipe gesture recognizer

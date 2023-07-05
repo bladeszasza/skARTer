@@ -192,9 +192,9 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
     var kickDirection: SIMD3<Float> {
         // Check if the skateboard is in motion
         if isSkateboardInMotion {
-            return [0.2, -1.0, 0.0]
+            return [0.8, -0.6, 0.0]
         } else {
-            return [0.8, -1.0, 0.0]
+            return [0.6, -1.0, 0.0]
         }
     }
     
@@ -213,11 +213,11 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
         if isSkateboardInMotion {
             print("is in motion")
             // If the skateboard is in motion, return a random value between 0.6 and 0.8
-            return Float.random(in: 0.48...0.58)// * (parent.skateboardEntity?.scale.x ?? 1.0)
+            return Float.random(in: 0.58...0.68)// * (parent.skateboardEntity?.scale.x ?? 1.0)
         } else {
             print("static")
             // If the skateboard is not in motion, return a random value between 1.8 and 2.2
-            return Float.random(in: 6.8...8.2)// * (parent.skateboardEntity?.scale.x ?? 1.0)
+            return Float.random(in: 7.8...8.3)// * (parent.skateboardEntity?.scale.x ?? 1.0)
             
         }
     }
@@ -228,7 +228,18 @@ class ARUIGestureRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
     }
     
     func getWorldPositionOnSkateboard(sender: UIGestureRecognizer)-> SIMD3<Float>{
-        let location = sender.location(in: parent.arView)
+        var location = CGPoint(x: 0.0, y: 0.0)
+        if sender.numberOfTouches == 2 {
+            
+            let touch1 = sender.location(ofTouch: 0, in: sender.view)
+            let touch2 = sender.location(ofTouch: 1, in: sender.view)
+            // Calculate the midpoint between the two touches
+            location = CGPoint(x: (touch1.x + touch2.x) / 2, y: (touch1.y + touch2.y) / 2)
+                        
+        }else{
+             location = sender.location(in: parent.arView)
+        }
+        
         let relativeZ = (Float(location.x / parent.arView.bounds.width) - 0.5) * deckSize.z
         //due to the reason the height of the screen represents the height of the skateboard and the width the width
         let relativeX = (Float(location.y / parent.arView.bounds.height) - 0.5) * deckSize.x
