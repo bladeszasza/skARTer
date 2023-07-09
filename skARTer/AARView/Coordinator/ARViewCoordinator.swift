@@ -180,13 +180,27 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
                     arView.scene.anchors.append(skateAnchor)
                 }
             case 3 :
-                let skateAnchor = try Experience.loadLevel12()
+                let skateAnchor = try Experience.loadLevel3()
                 if let skateboard = skateAnchor.centerBoard {
                     skateboardEntity.wrappedValue = skateboard
                     
                     arView.scene.anchors.append(skateAnchor)
                 }
             case 4 :
+                let skateAnchor = try Experience.loadLevel4()
+                if let skateboard = skateAnchor.centerBoard {
+                    skateboardEntity.wrappedValue = skateboard
+                    
+                    arView.scene.anchors.append(skateAnchor)
+                }
+            case 12 :
+                let skateAnchor = try Experience.loadLevel12()
+                if let skateboard = skateAnchor.centerBoard {
+                    skateboardEntity.wrappedValue = skateboard
+                    
+                    arView.scene.anchors.append(skateAnchor)
+                }
+            case 19 :
                 let skateAnchor = try Experience.loadLevel19()
                 if let skateboard = skateAnchor.centerBoard {
                     skateboardEntity.wrappedValue = skateboard

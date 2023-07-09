@@ -23,5 +23,15 @@
     "libraryIdentifier" : "c23244097ff2ef71ae50699f8072f036",
     "format" : "model",
     "displayName" : "complete_s2_m2_blendered.usdz"
+  },
+  {
+    "libraryIdentifier" : "7c272355ac63284bf312c0ad9a0266e7",
+    "format" : "model",
+    "displayName" : "complete_s1_m3_blendered.usdz"
+  },
+  {
+    "libraryIdentifier" : "22fe6f657bb68f49c322c6d7b7221181",
+    "format" : "model",
+    "displayName" : "complete_s1_m4_blendered.usdz"
   }
 ]
