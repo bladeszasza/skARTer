@@ -30,7 +30,6 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
     var planeEntity: ModelEntity?
     
     func setupHorizontalPlaneIn(arView: ARView) {
-    
         // Create a plane mesh with a size of 10 meters by 10 meters
         let planeMesh = MeshResource.generatePlane(width: 10.0, depth: 10.0)
         let planeMaterial = SimpleMaterial(color: UIColor.red, isMetallic: false)
@@ -39,11 +38,13 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         // Create an anchor entity to hold the plane model
         let anchorEntity = AnchorEntity(plane: .horizontal)
         anchorEntity.generateCollisionShapes(recursive: true)
-        // Position the anchor entity at 0, lowestY, 0
-        anchorEntity.position = [0, lowestY, 0]
         
         // Add the plane model to the anchor entity
         anchorEntity.addChild(planeModel)
+        
+        // Set the plane entity as static and non-physical
+        planeModel.physicsBody = nil
+        planeModel.generateCollisionShapes(recursive: true)
         
         // Add the anchor entity to the scene
         arView.scene.addAnchor(anchorEntity)
@@ -52,28 +53,46 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         planeEntity = planeModel
     }
     
-    
-    
     func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
-        print("didAdd")
         for anchor in anchors {
-            if let meshAnchor = anchor as? ARMeshAnchor {
-                // The transformation matrix for a mesh anchor includes translation
-                let translation = meshAnchor.transform.columns.3
-                // You could keep track of the lowest y value here
-                print("translation.y < lowestY ==  \(translation.y) < \(lowestY)")
-                if translation.y < lowestY {
-                    lowestY = translation.y
-                    // Update the position of your horizontal plane here
+            if let planeAnchor = anchor as? ARPlaneAnchor, planeAnchor.alignment == .horizontal {
+                if planeAnchor.transform.columns.3.y < lowestY {
+                    lowestY = planeAnchor.transform.columns.3.y
                     if let planeEntity = planeEntity {
-                        var newPosition = planeEntity.position
-                        newPosition.y = lowestY + 1
-                        planeEntity.position = newPosition
+                        // Get the parent anchor entity
+                        if let anchorEntity = planeEntity.parent as? AnchorEntity {
+                            // Move the anchor entity instead of the plane entity
+                            var newPosition = anchorEntity.position
+                            newPosition.y = lowestY + 1
+                            anchorEntity.position = newPosition
+                        }
                     }
                 }
             }
         }
     }
+    
+    //
+    //    func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
+    //        print("didAdd")
+    //        for anchor in anchors {
+    //            if let meshAnchor = anchor as? ARMeshAnchor {
+    //                // The transformation matrix for a mesh anchor includes translation
+    //                let translation = meshAnchor.transform.columns.3
+    //                // You could keep track of the lowest y value here
+    //                print("translation.y < lowestY ==  \(translation.y) < \(lowestY)")
+    //                if translation.y < lowestY {
+    //                    lowestY = translation.y
+    //                    // Update the position of your horizontal plane here
+    //                    if let planeEntity = planeEntity {
+    //                        var newPosition = planeEntity.position
+    //                        newPosition.y = lowestY + 1
+    //                        planeEntity.position = newPosition
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
     
     
     
@@ -111,7 +130,7 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         print("setupARView")
         
         //                        arView.debugOptions = .showPhysics
-//                        arView.debugOptions.insert(.showSceneUnderstanding)
+        //                        arView.debugOptions.insert(.showSceneUnderstanding)
         
         // Set up the ARView's session configuration for LiDAR scanning
         let config = ARWorldTrackingConfiguration()
@@ -119,8 +138,8 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
             config.sceneReconstruction = .mesh
         }
         
-                // Enable horizontal and vertical plane detection
-                config.planeDetection = [.horizontal, .vertical]
+        // Enable horizontal and vertical plane detection
+        config.planeDetection = [.horizontal, .vertical]
         
         // Enable automatic environment texturing
         config.environmentTexturing = .automatic
@@ -190,7 +209,7 @@ class ARViewCoordinator: NSObject, ARSessionDelegate {
         context.coordinator.setUpWheels()
         
         //set horizontal plane
-//        context.coordinator.setupHorizontalPlaneIn(arView:arView)
+//                context.coordinator.setupHorizontalPlaneIn(arView:arView)
         
         print("set up tap ")
         // Add tap gesture recognizer
